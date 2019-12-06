@@ -21,26 +21,32 @@ import javax.validation.Valid;
 import java.util.Map;
 
 @Controller
-public class HomeController {
+public class HomeController extends BaseController{
 
-    @Autowired
-    QuizService quizService;
+   private  final QuizService quizService;
 
-    @Autowired
-    QuestionService questionService;
+   private  final QuestionService questionService;
 
-    @Autowired
-    AccessControlService<Quiz> accessControlServiceQuiz;
+   private  final AccessControlService<Quiz> accessControlServiceQuiz;
 
-    @Autowired
-    AccessControlService<Question> accessControlServiceQuestion;
+   private  final AccessControlService<Question> accessControlServiceQuestion;
 
-    @GetMapping(value = "/")
-    public String home() {
-        return "home";
+   @Autowired
+    public HomeController(QuizService quizService, QuestionService questionService, AccessControlService<Quiz> accessControlServiceQuiz, AccessControlService<Question> accessControlServiceQuestion) {
+        this.quizService = quizService;
+        this.questionService = questionService;
+        this.accessControlServiceQuiz = accessControlServiceQuiz;
+        this.accessControlServiceQuestion = accessControlServiceQuestion;
     }
 
-    //done
+    @GetMapping(value = "/")
+    public ModelAndView home() {
+        ModelAndView model = new ModelAndView("home");
+
+        return model;
+    }
+
+
     @GetMapping(value = "/createQuiz")
     @PreAuthorize("isAuthenticated()")
     public String newQuiz(Map<String, Object> model) {
@@ -63,7 +69,7 @@ public class HomeController {
         return "redirect:/editQuiz/" + newQuiz.getId();
     }
 
-    @RequestMapping(value = "/editQuiz/{quiz_id}", method = RequestMethod.GET)
+    @GetMapping(value = "/editQuiz/{quiz_id}")
     @PreAuthorize("isAuthenticated()")
     public ModelAndView editQuiz(@PathVariable long quiz_id) {
         Quiz quiz = quizService.find(quiz_id);
@@ -76,7 +82,7 @@ public class HomeController {
         return mav;
     }
 
-    @RequestMapping(value = "/editAnswer/{question_id}", method = RequestMethod.GET)
+    @GetMapping(value = "/editAnswer/{question_id}")
     @PreAuthorize("isAuthenticated()")
     public ModelAndView editAnswer(@PathVariable long question_id) {
         Question question = questionService.find(question_id);
@@ -89,7 +95,7 @@ public class HomeController {
         return mav;
     }
 
-    @RequestMapping(value = "/quiz/{quiz_id}", method = RequestMethod.GET)
+    @GetMapping(value = "/quiz/{quiz_id}")
     @PreAuthorize("permitAll")
     public ModelAndView getQuiz(@PathVariable long quiz_id) {
         Quiz quiz = quizService.find(quiz_id);
@@ -101,7 +107,7 @@ public class HomeController {
         return mav;
     }
 
-    @RequestMapping(value = "/quiz/{quiz_id}/play", method = RequestMethod.GET)
+    @GetMapping(value = "/quiz/{quiz_id}/play")
     @PreAuthorize("permitAll")
     public ModelAndView playQuiz(@PathVariable long quiz_id) {
         Quiz quiz = quizService.find(quiz_id);

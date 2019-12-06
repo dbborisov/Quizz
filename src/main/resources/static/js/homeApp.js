@@ -6,7 +6,7 @@
 	
 		$scope.pagination = {
 			pageNumber: 0,
-			morePagesAvailable: true
+			morePagesAvailable: true,
 		};
 		
 		$scope.loadNextPage = function(quizName, quizDescription) {
@@ -19,8 +19,9 @@
 								$scope.quizzes = response.data.content;
 							} else {
 								$scope.quizzes = $scope.quizzes.concat(response.data.content);
+								// $scope.quizzes = $scope.quizzes.content.stream.
 							}
-							
+
 							$scope.pagination.morePagesAvailable = !response.data.last;
 							$scope.pagination.pageNumber++;
 						}, 

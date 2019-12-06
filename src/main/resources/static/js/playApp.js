@@ -15,8 +15,10 @@
 		$scope.isPlaying = true;
 		
 		$scope.initialize = function() {
-			if ($scope.quizId == 0)
+			if ($scope.quizId == 0){
 				return;
+			}
+
 			
 			$scope.playing = true;
 		

@@ -14,7 +14,7 @@ import java.util.Calendar;
 @Table(name = "answer")
 public class Answer extends BaseEntity implements UserOwned {
 
-	@Size(min = 1, max = 50, message = "The answer should be less than 50 characters")
+	@Size(min = 1, max = 100, message = "The answer should be less than 50 characters")
 	@NotNull(message = "No answer text provided.")
 	private String text;
 

@@ -28,6 +28,16 @@ public class Quiz extends BaseEntity implements UserOwned {
 	@JsonIgnore
 	private List<Question> questions;
 
+	private Integer questionSize;
+
+	public Integer getQuestionSize() {
+		return this.questions.size();
+	}
+
+	public void setQuestionSize(Integer questionSize) {
+		this.questionSize = this.questions.size();
+	}
+
 	@Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", insertable = false, updatable = false)
 	private Calendar createdDate;
 

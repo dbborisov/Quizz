@@ -49,7 +49,10 @@ public class QuizServiceImpl  implements QuizService {
 
     @Override
     public Page<Quiz> findAllPublished(Pageable pageable) {
-        return quizRepository.findByIsPublishedTrue(pageable);
+        System.out.println(pageable);
+        Page<Quiz> byIsPublishedTrue = quizRepository.findByIsPublishedTrue(pageable);
+        System.out.println(byIsPublishedTrue.getContent().size());
+        return byIsPublishedTrue;
     }
 
     @Override

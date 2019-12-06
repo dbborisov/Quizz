@@ -42,9 +42,11 @@ public class QuizController {
 	@ResponseStatus(HttpStatus.OK)
 	public Page<Quiz> findAll(Pageable pageable,
 							  @RequestParam(required = false, defaultValue = "false") Boolean published) {
-		
+
 		if (published) {
-			return quizService.findAllPublished(pageable);
+			//if is not logged user
+			Page<Quiz> allPublished = quizService.findAllPublished(pageable);
+			return allPublished;
 		} else {
 			return quizService.findAll(pageable);
 		}
