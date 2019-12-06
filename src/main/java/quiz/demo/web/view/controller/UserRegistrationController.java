@@ -6,10 +6,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import quiz.demo.data.model.User;
 import quiz.demo.exceptions.ModelVerificationException;
@@ -24,22 +21,28 @@ import javax.validation.Valid;
 @RequestMapping("/user")
 public class UserRegistrationController {
 
-	@Autowired
-	private RegistrationService registrationService;
+	private final RegistrationService registrationService;
 
-	@Autowired
-	private UserService userService;
+	private final UserService userService;
 
-	@Autowired
-	private MessageSource messageSource;
+	private final MessageSource messageSource;
 
-	@RequestMapping(value = "/registration", method = RequestMethod.GET)
+
+@Autowired
+	public UserRegistrationController(RegistrationService registrationService, UserService userService, MessageSource messageSource) {
+		this.registrationService = registrationService;
+		this.userService = userService;
+		this.messageSource = messageSource;
+	}
+
+
+	@GetMapping(value = "/registration")
 	@PreAuthorize("permitAll")
 	public String showRegistrationForm(@ModelAttribute User user) {
 		return "registration";
 	}
 
-	@RequestMapping(value = "/registration", method = RequestMethod.POST)
+	@PostMapping(value = "/registration")
 	@PreAuthorize("permitAll")
 	public ModelAndView signUp(@ModelAttribute @Valid User user, BindingResult result) {
 		User newUser;
@@ -60,7 +63,7 @@ public class UserRegistrationController {
 		return registrationStepView(newUser, mav);
 	}
 
-	@RequestMapping(value = "/{user_id}/continueRegistration", method = RequestMethod.GET)
+	@GetMapping(value = "/{user_id}/continueRegistration")
 	@PreAuthorize("permitAll")
 	public ModelAndView nextRegistrationStep(@PathVariable Long user_id, String token) {
 		User user = userService.find(user_id);
