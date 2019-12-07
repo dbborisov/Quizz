@@ -29,18 +29,21 @@ public class UserController {
 
 	public static final String ROOT_MAPPING = "/api/users";
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
-
-	@Autowired
 	private RegistrationService registrationService;
-	
-	@Autowired
+
 	private UserManagementService userManagementService;
 
-	@Autowired
 	private UserService userService;
 
-	@Autowired
 	private QuizService quizService;
+
+	@Autowired
+	public UserController(RegistrationService registrationService, UserManagementService userManagementService, UserService userService, QuizService quizService) {
+		this.registrationService = registrationService;
+		this.userManagementService = userManagementService;
+		this.userService = userService;
+		this.quizService = quizService;
+	}
 
 	@RequestMapping(value = "/registration", method = RequestMethod.POST)
 	@PreAuthorize("permitAll")
@@ -56,7 +59,7 @@ public class UserController {
 		}
 	}
 
-	@RequestMapping(value = "/{user_id}/continueRegistration", method = RequestMethod.GET)
+	@GetMapping(value = "/{user_id}/continueRegistration")
 	@PreAuthorize("permitAll")
 	public ResponseEntity<User> nextRegistrationStep(@PathVariable Long user_id, String token) {
 		User user = userService.find(user_id);
@@ -69,7 +72,7 @@ public class UserController {
 		}
 	}
 
-	@RequestMapping(value = "/{user_id}", method = RequestMethod.DELETE)
+	@DeleteMapping(value = "/{user_id}")
 	@PreAuthorize("isAuthenticated()")
 	@ResponseStatus(HttpStatus.OK)
 	public void delete(@PathVariable Long user_id) {
@@ -77,7 +80,7 @@ public class UserController {
 		userService.delete(user_id);
 	}
 
-	@RequestMapping(value = "/{user_id}/quizzes", method = RequestMethod.GET)
+	@GetMapping(value = "/{user_id}/quizzes")
 	@PreAuthorize("permitAll")
 	@ResponseStatus(HttpStatus.OK)
 	public Page<Quiz> getQuizzesByUser(Pageable pageable, @PathVariable Long user_id) {
@@ -87,7 +90,7 @@ public class UserController {
 		return quizService.findQuizzesByUser(user, pageable);
 	}
 	
-	@RequestMapping(value = "/myQuizzes", method = RequestMethod.GET)
+	@GetMapping(value = "/myQuizzes")
 	@PreAuthorize("isAuthenticated()")
 	@ResponseStatus(HttpStatus.OK)
 	public Page<Quiz> getQuizzesByCurrentUser(@AuthenticationPrincipal AuthenticatedUser authenticatedUser,

@@ -82,11 +82,12 @@
 						
 			        </div>
 			        <div class="text-center">
-						<th:block th:include="fragments/returnButton"/>
+
 						<button th:text="#{label.editquiz.submit.saveAll}" class="btn btn-primary" type="submit" ng-click="saveAll()" ng-disabled="isQuizSaving">Update</button>
 						<button th:text="#{label.editquiz.submit.publish}" class="btn btn-primary" type="submit" ng-hide="quiz.isPublished" ng-click="publish()" ng-disabled="isPublishing">Publish</button>
 			        </div>
-				</form>  
+				</form>
+				<th:block th:include="fragments/returnButton"/>
 				<!-- Remove this when footer is added -->
 				<br/><br/><br/><br/><br/><br/><br/><br/>
 			</div>

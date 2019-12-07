@@ -76,7 +76,7 @@
 			        <div>
 						<button th:text="#{label.editquiz.submit.saveAll}" class="btn btn-lg btn-primary btn-block" type="submit"  ng-click="saveAll(correctAnswer)">Update</button>
 			        </div>
-			        
+					<th:block th:include="fragments/returnButton"/>
 				</form>  
 				<!-- Remove this when footer is added -->
 				<br/><br/><br/><br/><br/><br/><br/><br/>

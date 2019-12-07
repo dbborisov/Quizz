@@ -1,6 +1,6 @@
 package quiz.demo.data.model.support;
 
-public class Response {
+	public class Response {
 	private Long question;
 	private Long selectedAnswer;
 

@@ -28,6 +28,7 @@ public class Quiz extends BaseEntity implements UserOwned {
 	@JsonIgnore
 	private List<Question> questions;
 
+	@Transient
 	private Integer questionSize;
 
 	public Integer getQuestionSize() {
