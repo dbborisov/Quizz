@@ -33,7 +33,9 @@ public class HomeController extends BaseController{
 
    @Autowired
     public HomeController(QuizService quizService, QuestionService questionService, AccessControlService<Quiz> accessControlServiceQuiz, AccessControlService<Question> accessControlServiceQuestion) {
-        this.quizService = quizService;
+       super();
+
+       this.quizService = quizService;
         this.questionService = questionService;
         this.accessControlServiceQuiz = accessControlServiceQuiz;
         this.accessControlServiceQuestion = accessControlServiceQuestion;

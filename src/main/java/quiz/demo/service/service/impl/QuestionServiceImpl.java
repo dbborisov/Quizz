@@ -24,8 +24,8 @@ public class QuestionServiceImpl implements QuestionService {
 
 	private static final Logger logger = LoggerFactory.getLogger(QuestionServiceImpl.class);
 	private QuestionRepository questionRepository;
-
 	private AnswerService answerService;
+
 
 	@Autowired
 	public QuestionServiceImpl(QuestionRepository questionRepository, AnswerService answerService) {

@@ -14,7 +14,9 @@ import quiz.demo.data.repository.UserRepository;
 import quiz.demo.exceptions.ResourceUnavailableException;
 import quiz.demo.exceptions.UnauthorizedActionException;
 import quiz.demo.exceptions.UserAlreadyExistsException;
+import quiz.demo.service.model.LogServiceModel;
 import quiz.demo.service.model.UserServiceModel;
+import quiz.demo.service.service.LogService;
 import quiz.demo.service.service.UserService;
 
 @Service
@@ -23,19 +25,22 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
+    private  final LogService log;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
-                           PasswordEncoder passwordEncoder, ModelMapper modelMapper) {
+                           PasswordEncoder passwordEncoder, ModelMapper modelMapper, LogService log) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.modelMapper = modelMapper;
+        this.log = log;
     }
 
     @Override
     public UserServiceModel saveUser(User user) throws UserAlreadyExistsException {
         if (userRepository.findByEmail(user.getEmail()) != null) {
             logger.error("The mail " + user.getEmail() + " is already in use");
+            log.seedLogInDB(new LogServiceModel("anonimus","The mail " + user.getEmail() + " is already in use"));
             throw new UserAlreadyExistsException("The mail " + user.getEmail() + " is already in use");
         }
 
@@ -72,6 +77,7 @@ public class UserServiceImpl implements UserService {
 
         if (user == null) {
             logger.error("The user " + username + " doesn't exist");
+            log.seedLogInDB(new LogServiceModel("anonimus","The user " + username + " doesn't exist"));
             throw new ResourceUnavailableException("The user " + username + " doesn't exist");
         }
 
@@ -84,6 +90,7 @@ public class UserServiceImpl implements UserService {
 
         if (user == null) {
             logger.error("The user " + id + " can't be found");
+            log.seedLogInDB(new LogServiceModel("anonimus","The user " + id + " can't be found"));
             throw new ResourceUnavailableException("User " + id + " not found.");
         }
 
@@ -114,6 +121,7 @@ public class UserServiceImpl implements UserService {
 
         if (user == null) {
             logger.error("The mail " + email + " can't be found");
+            log.seedLogInDB(new LogServiceModel("anonimus","The mail " + email + " can't be found"));
             throw new ResourceUnavailableException("The mail " + email + " can't be found");
         }
 

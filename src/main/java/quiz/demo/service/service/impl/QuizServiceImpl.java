@@ -19,6 +19,7 @@ import quiz.demo.exceptions.InvalidParametersException;
 import quiz.demo.exceptions.ResourceUnavailableException;
 import quiz.demo.exceptions.UnauthorizedActionException;
 import quiz.demo.service.model.UserServiceModel;
+import quiz.demo.service.service.LogService;
 import quiz.demo.service.service.QuestionService;
 import quiz.demo.service.service.QuizService;
 
@@ -30,13 +31,14 @@ public class QuizServiceImpl  implements QuizService {
     private static final Logger logger = LoggerFactory.getLogger(QuizServiceImpl.class);
     private QuizRepository quizRepository;
     private final ModelMapper modelMapper;
-
+    private  final LogService log;
     private QuestionService questionService;
 
     @Autowired
-    public QuizServiceImpl(QuizRepository quizRepository, ModelMapper modelMapper, QuestionService questionService) {
+    public QuizServiceImpl(QuizRepository quizRepository, ModelMapper modelMapper, LogService log, QuestionService questionService) {
         this.quizRepository = quizRepository;
         this.modelMapper = modelMapper;
+        this.log = log;
         this.questionService = questionService;
     }
 
@@ -113,6 +115,7 @@ public class QuizServiceImpl  implements QuizService {
             for (Response bundle : answersBundle) {
                 if (bundle.getQuestion().equals(question.getId())) {
                     isFound = true;
+
                     results.addAnswer(questionService.checkIsCorrectAnswer(question, bundle.getSelectedAnswer()));
                     break;
                 }
@@ -133,7 +136,9 @@ public class QuizServiceImpl  implements QuizService {
         if (count > 0) {
             quiz.setIsPublished(true);
             quizRepository.save(quiz);
+
         } else {
+
             throw new ActionRefusedException("The quiz doesn't have any valid questions");
         }
     }
