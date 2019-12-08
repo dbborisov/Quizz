@@ -9,6 +9,7 @@ import quiz.demo.data.model.support.Response;
 import quiz.demo.data.model.support.Result;
 import quiz.demo.exceptions.ResourceUnavailableException;
 import quiz.demo.exceptions.UnauthorizedActionException;
+import quiz.demo.service.model.UserServiceModel;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ public interface QuizService {
 
 	Page<Quiz> findAllPublished(Pageable pageable);
 
-	Page<Quiz> findQuizzesByUser(User user, Pageable pageable);
+	Page<Quiz> findQuizzesByUser(UserServiceModel user, Pageable pageable);
 
 	Quiz find(Long id) throws ResourceUnavailableException;
 

@@ -1,33 +1,42 @@
 package quiz.demo.service.service.impl;
 
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import quiz.demo.data.model.User;
 import quiz.demo.service.service.RegistrationService;
 import quiz.demo.service.service.UserService;
+import quiz.demo.service.model.UserServiceModel;
 
 @Service
 public class RegistrationServiceSimple implements RegistrationService {
 
+
+	private final UserService userService;
+	private final ModelMapper modelMapper;
+
 	@Autowired
-	private UserService userService;
+	public RegistrationServiceSimple(UserService userService, ModelMapper modelMapper) {
+		this.userService = userService;
+		this.modelMapper = modelMapper;
+	}
 
 	@Override
-	public User startRegistration(User user) {
-		User newUser = userService.saveUser(user);
+	public UserServiceModel startRegistration(UserServiceModel user) {
+		UserServiceModel newUser = userService.saveUser(modelMapper.map(user,User.class));
 		userService.setRegistrationCompleted(newUser);
 
 		return newUser;
 	}
 
 	@Override
-	public User continueRegistration(User user, String token) {
+	public UserServiceModel continueRegistration(UserServiceModel user, String token) {
 		return null;
 	}
 
 	@Override
-	public boolean isRegistrationCompleted(User user) {
+	public boolean isRegistrationCompleted(UserServiceModel user) {
 		return userService.isRegistrationCompleted(user);
 	}
 

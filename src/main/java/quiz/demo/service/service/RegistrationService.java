@@ -2,11 +2,12 @@ package quiz.demo.service.service;
 
 
 import quiz.demo.data.model.User;
+import quiz.demo.service.model.UserServiceModel;
 
 public interface RegistrationService {
-	User startRegistration(User user);
+	UserServiceModel startRegistration(UserServiceModel user);
 
-	User continueRegistration(User user, String token);
+	UserServiceModel continueRegistration(UserServiceModel user, String token);
 
-	boolean isRegistrationCompleted(User user);
+	boolean isRegistrationCompleted(UserServiceModel user);
 }

@@ -1,6 +1,7 @@
 package quiz.demo.web.view.controller;
 
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -9,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import quiz.demo.data.model.User;
+import quiz.demo.service.model.UserServiceModel;
 import quiz.demo.service.service.UserManagementService;
 import quiz.demo.service.service.UserService;
 
@@ -16,14 +18,19 @@ import quiz.demo.service.service.UserService;
 @RequestMapping("/user")
 public class UserManagementController {
 
-	@Autowired
-	private UserManagementService userManagementService;
+
+	private final UserManagementService userManagementService;
+	private final MessageSource messageSource;
+	private final UserService userService;
+	private final ModelMapper mapper;
 
 	@Autowired
-	private MessageSource messageSource;
-
-	@Autowired
-	private UserService userService;
+	public UserManagementController(UserManagementService userManagementService, MessageSource messageSource, UserService userService, ModelMapper mapper) {
+		this.userManagementService = userManagementService;
+		this.messageSource = messageSource;
+		this.userService = userService;
+		this.mapper = mapper;
+	}
 
 	@GetMapping(value = "/login")
 	@PreAuthorize("permitAll")
@@ -47,7 +54,7 @@ public class UserManagementController {
 	@PostMapping(value = "/forgotPassword")
 	@PreAuthorize("permitAll")
 	public ModelAndView forgotPassword(String email) {
-		User user = userService.findByEmail(email);
+		UserServiceModel user = userService.findByEmail(email);
 		userManagementService.resendPassword(user);
 
 		ModelAndView mav = new ModelAndView();
@@ -61,7 +68,7 @@ public class UserManagementController {
 	@GetMapping(value = "/{user_id}/resetPassword")
 	@PreAuthorize("permitAll")
 	public ModelAndView resetPassword(@PathVariable Long user_id, String token) {
-		User user = userService.find(user_id);
+		UserServiceModel user = userService.find(user_id);
 		userManagementService.verifyResetPasswordToken(user, token);
 
 		ModelAndView mav = new ModelAndView();
@@ -75,7 +82,7 @@ public class UserManagementController {
 	@PostMapping(value = "/{user_id}/resetPassword")
 	@PreAuthorize("permitAll")
 	public String resetPassword(@PathVariable Long user_id, String token, String password) {
-		User user = userService.find(user_id);
+		UserServiceModel user = userService.find(user_id);
 		userManagementService.verifyResetPasswordToken(user, token);
 
 		userManagementService.updatePassword(user, password);

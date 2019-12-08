@@ -1,6 +1,7 @@
 package quiz.demo.service.service.impl;
 
 
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import quiz.demo.data.repository.UserRepository;
 import quiz.demo.exceptions.ResourceUnavailableException;
 import quiz.demo.exceptions.UnauthorizedActionException;
 import quiz.demo.exceptions.UserAlreadyExistsException;
+import quiz.demo.service.model.UserServiceModel;
 import quiz.demo.service.service.UserService;
 
 @Service
@@ -20,16 +22,18 @@ public class UserServiceImpl implements UserService {
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
+    private final ModelMapper modelMapper;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
-                           PasswordEncoder passwordEncoder) {
+                           PasswordEncoder passwordEncoder, ModelMapper modelMapper) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.modelMapper = modelMapper;
     }
 
     @Override
-    public User saveUser(User user) throws UserAlreadyExistsException {
+    public UserServiceModel saveUser(User user) throws UserAlreadyExistsException {
         if (userRepository.findByEmail(user.getEmail()) != null) {
             logger.error("The mail " + user.getEmail() + " is already in use");
             throw new UserAlreadyExistsException("The mail " + user.getEmail() + " is already in use");
@@ -38,7 +42,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setEnabled(false);
 
-        return userRepository.save(user);
+        return modelMapper.map(userRepository.save(user),UserServiceModel.class);
     }
 
     @Override
@@ -47,7 +51,7 @@ public class UserServiceImpl implements UserService {
      * either. TODO: Join Username and Email into one JPQL
      */
     public AuthenticatedUser loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user;
+        UserServiceModel user;
 
         try {
             user = findByUsername(username);
@@ -59,11 +63,11 @@ public class UserServiceImpl implements UserService {
             }
         }
 
-        return new AuthenticatedUser(user);
+        return new AuthenticatedUser(modelMapper.map(user,User.class));
     }
 
     @Override
-    public User findByUsername(String username) throws ResourceUnavailableException {
+    public UserServiceModel findByUsername(String username) throws ResourceUnavailableException {
         User user = userRepository.findByUsername(username);
 
         if (user == null) {
@@ -71,11 +75,11 @@ public class UserServiceImpl implements UserService {
             throw new ResourceUnavailableException("The user " + username + " doesn't exist");
         }
 
-        return user;
+        return  modelMapper.map(user,UserServiceModel.class);
     }
 
     @Override
-    public User find(Long id) throws ResourceUnavailableException {
+    public UserServiceModel find(Long id) throws ResourceUnavailableException {
         User user = userRepository.findById(id).orElse(null);
 
         if (user == null) {
@@ -83,29 +87,29 @@ public class UserServiceImpl implements UserService {
             throw new ResourceUnavailableException("User " + id + " not found.");
         }
 
-        return user;
+        return modelMapper.map(user,UserServiceModel.class);
     }
 
     @Override
     public void delete(Long user_id) throws UnauthorizedActionException, ResourceUnavailableException {
-        User userToDelete = find(user_id);
+        UserServiceModel userToDelete = find(user_id);
 
-        userRepository.delete(userToDelete);
+        userRepository.delete(modelMapper.map(userToDelete,User.class));
     }
 
     @Override
-    public User setRegistrationCompleted(User user) {
+    public UserServiceModel setRegistrationCompleted(UserServiceModel user) {
         user.setEnabled(true);
-        return userRepository.save(user);
+        return modelMapper.map(userRepository.save(modelMapper.map(user,User.class)),UserServiceModel.class);
     }
 
     @Override
-    public boolean isRegistrationCompleted(User user) {
-        return user.getEnabled();
+    public boolean isRegistrationCompleted(UserServiceModel user) {
+        return modelMapper.map(user,User.class).getEnabled();
     }
 
     @Override
-    public User findByEmail(String email) throws ResourceUnavailableException {
+    public UserServiceModel findByEmail(String email) throws ResourceUnavailableException {
         User user = userRepository.findByEmail(email);
 
         if (user == null) {
@@ -113,12 +117,12 @@ public class UserServiceImpl implements UserService {
             throw new ResourceUnavailableException("The mail " + email + " can't be found");
         }
 
-        return user;
+        return modelMapper.map(user,UserServiceModel.class);
     }
 
     @Override
-    public User updatePassword(User user, String password) throws ResourceUnavailableException {
+    public UserServiceModel updatePassword(UserServiceModel user, String password) throws ResourceUnavailableException {
         user.setPassword(passwordEncoder.encode(password));
-        return userRepository.save(user);
+        return modelMapper.map(userRepository.save(modelMapper.map(user,User.class)),UserServiceModel.class);
     }
 }

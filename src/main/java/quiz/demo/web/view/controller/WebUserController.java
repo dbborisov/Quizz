@@ -2,7 +2,6 @@ package quiz.demo.web.view.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,8 +13,13 @@ import quiz.demo.service.service.UserService;
 @RequestMapping("/user")
 public class WebUserController {
 
+
+	private final UserService userService;
+
 	@Autowired
-	UserService userService;
+	public WebUserController(UserService userService) {
+		this.userService = userService;
+	}
 
 	@GetMapping(value = "/{user_id}/quizzes")
 	@PreAuthorize("permitAll")

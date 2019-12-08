@@ -4,6 +4,7 @@ package quiz.demo.service.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import quiz.demo.data.model.User;
+import quiz.demo.service.model.UserServiceModel;
 import quiz.demo.service.service.UserManagementService;
 import quiz.demo.service.service.UserService;
 
@@ -22,18 +23,18 @@ public class UserManagementServiceImpl implements UserManagementService {
 	}
 
 	@Override
-	public void resendPassword(User user) {
+	public void resendPassword(UserServiceModel user) {
 //		ForgotPasswordToken token = forgotPasswordService.generateTokenForUser(user);
 //		tokenDeliveryService.sendTokenToUser(token, user, TokenType.FORGOT_PASSWORD);
 	}
 
 	@Override
-	public void verifyResetPasswordToken(User user, String token) {
+	public void verifyResetPasswordToken(UserServiceModel user, String token) {
 //		forgotPasswordService.validateTokenForUser(user, token);
 	}
 
 	@Override
-	public void updatePassword(User user, String password) {
+	public void updatePassword(UserServiceModel user, String password) {
 		userService.updatePassword(user, password);
 	}
 

@@ -30,7 +30,7 @@ public class AnswerController {
 	@PreAuthorize("isAuthenticated()")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Answer save(@Valid Answer answer, BindingResult result, @RequestParam long question_id) {
-
+		System.out.println(answer + " " + result + " " + question_id );
 		RestVerifier.verifyModelResult(result);
 
 		Question question = questionService.find(question_id);

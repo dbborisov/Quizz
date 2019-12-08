@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import quiz.demo.data.model.AuthenticatedUser;
 import quiz.demo.data.model.Quiz;
 import quiz.demo.data.model.User;
+import quiz.demo.service.model.UserServiceModel;
 import quiz.demo.service.service.QuizService;
 import quiz.demo.service.service.RegistrationService;
 import quiz.demo.service.service.UserManagementService;
@@ -47,28 +48,28 @@ public class UserController {
 
 	@RequestMapping(value = "/registration", method = RequestMethod.POST)
 	@PreAuthorize("permitAll")
-	public ResponseEntity<User> signUp(@Valid User user, BindingResult result) {
+	public ResponseEntity<UserServiceModel> signUp(@Valid UserServiceModel user, BindingResult result) {
 
 		RestVerifier.verifyModelResult(result);
-		User newUser = registrationService.startRegistration(user);
+		UserServiceModel newUser = registrationService.startRegistration(user);
 
 		if (registrationService.isRegistrationCompleted(newUser)) {
-			return new ResponseEntity<User>(newUser, HttpStatus.CREATED);
+			return new ResponseEntity<UserServiceModel>(newUser, HttpStatus.CREATED);
 		} else {
-			return new ResponseEntity<User>(newUser, HttpStatus.OK);
+			return new ResponseEntity<UserServiceModel>(newUser, HttpStatus.OK);
 		}
 	}
 
 	@GetMapping(value = "/{user_id}/continueRegistration")
 	@PreAuthorize("permitAll")
-	public ResponseEntity<User> nextRegistrationStep(@PathVariable Long user_id, String token) {
-		User user = userService.find(user_id);
+	public ResponseEntity<UserServiceModel> nextRegistrationStep(@PathVariable Long user_id, String token) {
+		UserServiceModel user = userService.find(user_id);
 		registrationService.continueRegistration(user, token);
 
 		if (registrationService.isRegistrationCompleted(user)) {
-			return new ResponseEntity<User>(user, HttpStatus.CREATED);
+			return new ResponseEntity<UserServiceModel>(user, HttpStatus.CREATED);
 		} else {
-			return new ResponseEntity<User>(user, HttpStatus.OK);
+			return new ResponseEntity<UserServiceModel>(user, HttpStatus.OK);
 		}
 	}
 
@@ -85,8 +86,8 @@ public class UserController {
 	@ResponseStatus(HttpStatus.OK)
 	public Page<Quiz> getQuizzesByUser(Pageable pageable, @PathVariable Long user_id) {
 		logger.debug("Requested page " + pageable.getPageNumber() + " from user " + user_id);
-		
-		User user = userService.find(user_id);
+
+		UserServiceModel user = userService.find(user_id);
 		return quizService.findQuizzesByUser(user, pageable);
 	}
 	
@@ -119,8 +120,8 @@ public class UserController {
 	@RequestMapping(value = "/forgotPassword")
 	@PreAuthorize("permitAll")
 	@ResponseStatus(HttpStatus.OK)
-	public User forgotPassword(String email) {
-		User user = userService.findByEmail(email);
+	public UserServiceModel forgotPassword(String email) {
+		UserServiceModel user = userService.findByEmail(email);
 		userManagementService.resendPassword(user);
 		
 		return user;

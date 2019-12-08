@@ -1,6 +1,7 @@
 package quiz.demo.service.service.impl;
 
 
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import quiz.demo.exceptions.ActionRefusedException;
 import quiz.demo.exceptions.InvalidParametersException;
 import quiz.demo.exceptions.ResourceUnavailableException;
 import quiz.demo.exceptions.UnauthorizedActionException;
+import quiz.demo.service.model.UserServiceModel;
 import quiz.demo.service.service.QuestionService;
 import quiz.demo.service.service.QuizService;
 
@@ -27,12 +29,14 @@ public class QuizServiceImpl  implements QuizService {
 
     private static final Logger logger = LoggerFactory.getLogger(QuizServiceImpl.class);
     private QuizRepository quizRepository;
+    private final ModelMapper modelMapper;
 
     private QuestionService questionService;
 
     @Autowired
-    public QuizServiceImpl(QuizRepository quizRepository, QuestionService questionService) {
+    public QuizServiceImpl(QuizRepository quizRepository, ModelMapper modelMapper, QuestionService questionService) {
         this.quizRepository = quizRepository;
+        this.modelMapper = modelMapper;
         this.questionService = questionService;
     }
 
@@ -91,8 +95,8 @@ public class QuizServiceImpl  implements QuizService {
     }
 
     @Override
-    public Page<Quiz> findQuizzesByUser(User user, Pageable pageable) {
-        return quizRepository.findByCreatedBy(user, pageable);
+    public Page<Quiz> findQuizzesByUser(UserServiceModel user, Pageable pageable) {
+        return quizRepository.findByCreatedBy(modelMapper.map(user,User.class), pageable);
     }
 
     @Override

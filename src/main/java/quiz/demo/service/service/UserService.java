@@ -5,22 +5,23 @@ import quiz.demo.data.model.User;
 import quiz.demo.exceptions.ResourceUnavailableException;
 import quiz.demo.exceptions.UnauthorizedActionException;
 import quiz.demo.exceptions.UserAlreadyExistsException;
+import quiz.demo.service.model.UserServiceModel;
 
 public interface UserService extends UserDetailsService {
-    User saveUser(User user) throws UserAlreadyExistsException;
+    UserServiceModel saveUser(User user) throws UserAlreadyExistsException;
 
-    User find(Long id) throws ResourceUnavailableException;;
+    UserServiceModel find(Long id) throws ResourceUnavailableException;
 
-    User findByEmail(String email) throws ResourceUnavailableException;
+    UserServiceModel findByEmail(String email) throws ResourceUnavailableException;
 
-    User findByUsername(String username) throws ResourceUnavailableException;
+    UserServiceModel findByUsername(String username) throws ResourceUnavailableException;
 
-    User updatePassword(User user, String password) throws ResourceUnavailableException;
+    UserServiceModel updatePassword(UserServiceModel user, String password) throws ResourceUnavailableException;
 
     void delete(Long user_id) throws UnauthorizedActionException, ResourceUnavailableException;
 
-    User setRegistrationCompleted(User user) throws ResourceUnavailableException;
+    UserServiceModel setRegistrationCompleted(UserServiceModel user) throws ResourceUnavailableException;
 
-    boolean isRegistrationCompleted(User user) throws ResourceUnavailableException;
+    boolean isRegistrationCompleted(UserServiceModel user) throws ResourceUnavailableException;
 
 }

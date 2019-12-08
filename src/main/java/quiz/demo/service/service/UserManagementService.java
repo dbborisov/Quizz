@@ -2,13 +2,14 @@ package quiz.demo.service.service;
 
 
 import quiz.demo.data.model.User;
+import quiz.demo.service.model.UserServiceModel;
 
 public interface UserManagementService {
 
-	void resendPassword(User user);
+	void resendPassword(UserServiceModel user);
 
-	void verifyResetPasswordToken(User user, String token);
+	void verifyResetPasswordToken(UserServiceModel user, String token);
 
-	void updatePassword(User user, String password);
+	void updatePassword(UserServiceModel user, String password);
 
 }
