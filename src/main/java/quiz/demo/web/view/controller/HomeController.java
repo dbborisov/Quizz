@@ -1,6 +1,8 @@
 package quiz.demo.web.view.controller;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,6 +17,7 @@ import quiz.demo.exceptions.ModelVerificationException;
 import quiz.demo.service.accesscontrol.AccessControlService;
 import quiz.demo.service.service.QuestionService;
 import quiz.demo.service.service.QuizService;
+import quiz.demo.web.api.UserController;
 import quiz.demo.web.utils.RestVerifier;
 
 import javax.validation.Valid;
@@ -22,6 +25,7 @@ import java.util.Map;
 
 @Controller
 public class HomeController extends BaseController{
+    private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
    private  final QuizService quizService;
 

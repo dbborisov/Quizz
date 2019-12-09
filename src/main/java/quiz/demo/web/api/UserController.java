@@ -46,7 +46,7 @@ public class UserController {
 		this.quizService = quizService;
 	}
 
-	@RequestMapping(value = "/registration", method = RequestMethod.POST)
+	@PostMapping(value = "/registration")
 	@PreAuthorize("permitAll")
 	public ResponseEntity<UserServiceModel> signUp(@Valid UserServiceModel user, BindingResult result) {
 
@@ -108,7 +108,7 @@ public class UserController {
 		logger.debug("Logged in as " + authenticatedUser.getUsername());
 		return authenticatedUser.getUser();
 	}
-	
+
 	@RequestMapping(value = "/logoutDummy")
 	@PreAuthorize("permitAll()")
 	@ResponseStatus(HttpStatus.OK)

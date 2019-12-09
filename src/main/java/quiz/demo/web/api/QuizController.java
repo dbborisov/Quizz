@@ -55,6 +55,8 @@ public class QuizController extends BaseController {
         if (published) {
             //if is not logged user
             Page<Quiz> allPublished = quizService.findAllPublished(pageable);
+            logger.debug("The Quiz's ar view " + allPublished.getTotalElements() + " is going to be created");
+
             return allPublished;
         } else {
             return quizService.findAll(pageable);

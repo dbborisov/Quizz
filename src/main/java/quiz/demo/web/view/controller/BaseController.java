@@ -35,7 +35,7 @@ public abstract class BaseController {
 
     public void logPrincipal(Principal principal, String... data) {
         if (principal != null) {
-            System.out.println(principal.getName());
+
             log.seedLogInDB(new LogServiceModel(principal.getName(), " played quiz with id = " + Arrays.stream(data).collect(Collectors.joining(" "))));
         } else {
             log.seedLogInDB(new LogServiceModel("anonymous", " played quiz with id = " + Arrays.stream(data).collect(Collectors.joining(" "))));
