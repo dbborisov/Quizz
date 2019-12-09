@@ -31,7 +31,7 @@ public class AccessControlAspectsUser {
 		return proceedingJoinPoint.proceed();
 	}
 
-	@Around("execution(* quiz.demo.data.repository.UserRepository.find(Long)) && args(id)")
+	@Around("execution(* quiz.demo.data.repository.UserRepository.findById(Long)) && args(id)")
 	public Object find(ProceedingJoinPoint proceedingJoinPoint, Long id) throws Throwable {
 		accessControlService.canCurrentUserReadObject(id);
 

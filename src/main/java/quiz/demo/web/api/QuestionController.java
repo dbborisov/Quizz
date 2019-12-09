@@ -34,7 +34,7 @@ public class QuestionController {
 
 	@RequestMapping(value = "", method = RequestMethod.POST)
 	@PreAuthorize("isAuthenticated()")
-//	@ResponseStatus(HttpStatus.CREATED)
+	@ResponseStatus(HttpStatus.CREATED)
 	public Question save(@Valid Question question, BindingResult result, @RequestParam Long quiz_id) {
 
 		RestVerifier.verifyModelResult(result);
