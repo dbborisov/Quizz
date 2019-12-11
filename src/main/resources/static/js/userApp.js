@@ -9,11 +9,12 @@ app.controller('listdata',function($scope, $http){
 	$http.get("http://localhost:8080/api/users/all").success(function(response){
 		$scope.users = response;  //ajax request to fetch data into $scope.data
 	});
+    $scope.sort = function(keyname){
+        $scope.sortKey = keyname;   //set the sortKey to the param passed
+        $scope.reverse = !$scope.reverse; //if true make it false and vice versa
+    }
 });
-$scope.sort = function(keyname){
-	$scope.sortKey = keyname;   //set the sortKey to the param passed
-	$scope.reverse = !$scope.reverse; //if true make it false and vice versa
-}
+
 
 // (function() {
 // var todos = angular.module('todos', ['ui.bootstrap']);

@@ -1,65 +1,76 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" ng-app="angularTable">
-<head  th:replace="fragments/head :: headerFragment">
+<head th:replace="fragments/head :: headerFragment">
 </head>
 
 <body>
 <div th:replace="fragments/header :: header">...</div>
-<main  class="container">
-<div role="main" class="container theme-showcase">
+<main class="container">
+    <h1>User Management</h1>
+
     <div class="" style="margin-top:90px;">
-        <div class="col-lg-8">
-            <div class="page-header">
-                <h2 id="tables">Search Sort and Pagination in Angular js</h2>
-            </div>
+
+        <div class="">
+
             <div class="bs-component" ng-controller="listdata">
-                <div class="bs-component" ng-controller="listdata">
+
+                <table class="table table-striped table-hover">
                     <form class="form-inline">
-                        <div class="form-group">
-                            <label >Search</label>
+                        <div class="form-group"style="margin-bottom:40px;">
+                            <label>Search</label>
                             <input type="text" ng-model="search" class="form-control" placeholder="Search">
                         </div>
                     </form>
-                    <table class="table table-striped table-hover">
-                        <thead>
+                    <thead>
+                    <tr>
+                        <th th:text="#{label.users.all.username}" ng-click="sort('username')" width="40%">email</th>
+                        <span class="glyphicon sort-icon" ng-show="sortKey=='username'"
+                              ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                        <th th:text="#{label.users.all.id}" ng-click="sort('id')">user</th>
+                        <span class="glyphicon sort-icon" ng-show="sortKey=='id'"
+                              ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                        <th th:text="#{label.users.all.email}" ng-click="sort('email')">Email</th>
+                        <span class="glyphicon sort-icon" ng-show="sortKey=='email'"
+                              ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                        <th th:text="#{label.users.all.isenable}" ng-click="sort('enable')">isEnabled</th>
+                        <span class="glyphicon sort-icon" ng-show="sortKey=='enable'"
+                              ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                        <th th:text="#{label.users.all.createDate}" ng-click="sort('createdDate')"></th>
+                        <span class="glyphicon sort-icon" ng-show="sortKey=='createdDate'"
+                              ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
 
-                        <tr>
+                        <th th:text="#{label.users.all.editUseer}">edit!</th>
 
-                            <th th:text="#{label.users.all.usernameid }" ng-click="sort('id')" width="70%">user</th>
-                            <th th:text="#{label.users.all.email}" ng-click="sort('username')">email</th>
-                            <th th:text="#{label.users.all.isenable}" ng-click="sort('email')">isenable</th>
-                            <th th:text="#{label.users.all.createDate}" ng-click="sort('createdDate')"></th>
-                            <th th:text="#{label.users.all.editUseer}">edit!</th>
-
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr dir-paginate="user in users|orderBy:sortKey:reverse|filter:search|itemsPerPage:5">
-                            <td>{{user.id}}</td>
-                            <td>{{user.username}}</td>
-                            <td>{{user.email}}</td>
-                            <td>{{user.createdDate | date}}</td>
-                            <td>
-                                <a href="/quiz/{{todo.id}}" class="btn btn-warning">
-                                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                                </a>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <dir-pagination-controls
-                            max-size="5"
-                            direction-links="true"
-                            boundary-links="true" >
-                    </dir-pagination-controls>
-                </div>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr dir-paginate="user in users|orderBy:sortKey:reverse|filter:search|itemsPerPage:5">
+                        <td>{{user.username}}</td>
+                        <td>{{user.id}}</td>
+                        <td>{{user.email}}</td>
+                        <td>{{user.enable}}</td>
+                        <td>{{user.createdDate | date}}</td>
+                        <td>
+                            <a href="/quiz/{{todo.id}}" class="btn btn-warning">
+                                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <dir-pagination-controls
+                        max-size="5"
+                        direction-links="true"
+                        boundary-links="true">
+                </dir-pagination-controls>
             </div>
         </div>
     </div>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.1/angular.js"></script>
-<script type="text/javascript" src="..userApp.js" th:src="@{/js/userApp.js}"></script>
-<script type="text/javascript" src="..dirPagination.js" th:src="@{/js/dirPagination.js}"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.1/angular.js"></script>
+    <script type="text/javascript" src="..userApp.js" th:src="@{/js/userApp.js}"></script>
+    <script type="text/javascript" src="..dirPagination.js" th:src="@{/js/dirPagination.js}"></script>
 </main>
 </body>
 
