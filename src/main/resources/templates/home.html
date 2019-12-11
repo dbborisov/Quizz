@@ -7,14 +7,15 @@
 	<div th:replace="fragments/header :: header">...</div>
 
 	<div class="container">
-
+		<p sec:authorize="isAuthenticated()" hidden>Hello, <span th:text="${ T(org.springframework.security.core.context.SecurityContextHolder)
+      .context.authentication.principal.user.role}" ></span>!</p>
 		<div ng-controller="HomeCtrl">
 			
 			<div>
 				<h1 th:text="#{label.home.welcome}">Welcome to QuizZz!</h1>
 				<br/>
 			</div>
-				
+
 			<table class="table table-hover" align="center">
 				<thead>
 					<tr>
@@ -23,6 +24,7 @@
 						<th sec:authorize="isAuthenticated()" th:text="#{label.home.maintable.headers.times}">Times played</th>
 						<th th:text="#{label.home.maintable.headers.play}">Play!</th>
 					</tr>
+
 				</thead>
 				<tbody>				
 					<tr ng-repeat="quiz in quizzes">

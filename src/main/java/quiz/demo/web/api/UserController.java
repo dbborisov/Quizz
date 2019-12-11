@@ -22,7 +22,9 @@ import quiz.demo.service.service.UserManagementService;
 import quiz.demo.service.service.UserService;
 import quiz.demo.web.utils.RestVerifier;
 
+import javax.annotation.security.PermitAll;
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping(UserController.ROOT_MAPPING)
@@ -82,7 +84,7 @@ public class UserController {
 	}
 
 	@GetMapping(value = "/{user_id}/quizzes")
-	@PreAuthorize("permitAll")
+	@PreAuthorize("isAuthenticated()")
 	@ResponseStatus(HttpStatus.OK)
 	public Page<Quiz> getQuizzesByUser(Pageable pageable, @PathVariable Long user_id) {
 		logger.debug("Requested page " + pageable.getPageNumber() + " from user " + user_id);
@@ -105,7 +107,8 @@ public class UserController {
 	@PreAuthorize("isAuthenticated()")
 	@ResponseStatus(HttpStatus.OK)
 	public User login(@AuthenticationPrincipal AuthenticatedUser authenticatedUser) {
-		logger.debug("Logged in as " + authenticatedUser.getUsername());
+		logger.debug("Logged in as " + authenticatedUser.getUsername()+" and role "+ authenticatedUser.getAuthorities().toString()+" user has role "
+				+ authenticatedUser.getUser().getRole().name()) ;
 		return authenticatedUser.getUser();
 	}
 
@@ -118,7 +121,7 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/forgotPassword")
-	@PreAuthorize("permitAll")
+	@PreAuthorize("permitAll()")
 	@ResponseStatus(HttpStatus.OK)
 	public UserServiceModel forgotPassword(String email) {
 		UserServiceModel user = userService.findByEmail(email);
@@ -126,6 +129,20 @@ public class UserController {
 		
 		return user;
 	}
-	
+
+	@GetMapping(value = "all")
+	@PreAuthorize("permitAll()")
+	@ResponseStatus(HttpStatus.OK)
+	public List<UserServiceModel> getUsers(){
+		return this.userManagementService.findAll();
+	}
+
+	@GetMapping(value = "all/{id}")
+	@PreAuthorize("permitAll()")
+	@ResponseStatus(HttpStatus.OK)
+	public UserServiceModel getUser(@PathVariable Long id){
+		UserServiceModel user = this.userService.find(id);
+		return user; //todo
+	}
 
 }

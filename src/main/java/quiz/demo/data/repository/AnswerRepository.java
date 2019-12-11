@@ -7,7 +7,7 @@ import quiz.demo.data.model.Question;
 
 import java.util.List;
 
-@Repository("AnswerRepository")
+@Repository()
 public interface AnswerRepository extends JpaRepository<Answer, Long> {
 
 	int countByQuestion(Question question);

@@ -55,7 +55,10 @@ public class HomeController extends BaseController{
 
     @GetMapping(value = "/createQuiz")
     @PreAuthorize("isAuthenticated()")
+
     public String newQuiz(Map<String, Object> model) {
+
+      logger.debug("Entering the creat Quiz GetMapping");
         return "createQuiz";
     }
 

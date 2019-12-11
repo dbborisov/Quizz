@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import quiz.demo.data.model.AuthenticatedUser;
+import quiz.demo.data.model.Role;
 import quiz.demo.data.model.User;
 import quiz.demo.data.repository.UserRepository;
 import quiz.demo.exceptions.ResourceUnavailableException;
@@ -40,13 +41,31 @@ public class UserServiceImpl implements UserService {
     public UserServiceModel saveUser(User user) throws UserAlreadyExistsException {
         if (userRepository.findByEmail(user.getEmail()) != null) {
             logger.error("The mail " + user.getEmail() + " is already in use");
-            log.seedLogInDB(new LogServiceModel("anonimus","The mail " + user.getEmail() + " is already in use"));
-            throw new UserAlreadyExistsException("The mail " + user.getEmail() + " is already in use");
+            log.seedLogInDB(new LogServiceModel("anonymous","The mail " + user.getEmail() + " is already in use"));
+            throw new UserAlreadyExistsException("The mail  or email is already in use");
+        }
+        if (userRepository.findByUsername(user.getUsername()) != null) {
+            logger.error("The username " + user.getUsername() + " is already in use");
+            log.seedLogInDB(new LogServiceModel("anonymous","The mail " + user.getEmail() + " is already in use"));
+            throw new UserAlreadyExistsException("The username or email  is already in use");
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+
         user.setEnabled(false);
 
+        if(this.userRepository.findUserByRole(Role.valueOf("ROOT")) == null){ //todo must be optimize
+            user.setRole(Role.ROOT);
+            user.setEnabled(true);
+            log.seedLogInDB(new LogServiceModel(user.getUsername(),"is Created with authority" + user.getRole().name()));
+        }else if(this.userRepository.findUserByRole(Role.valueOf("Admin")) == null){
+            user.setRole(Role.Admin);
+            user.setEnabled(true);
+            log.seedLogInDB(new LogServiceModel(user.getUsername(),"is Created with authority" + user.getRole().name()));
+        }else {
+            user.setEnabled(false);
+            user.setRole(Role.Master_User);
+        }
         return modelMapper.map(userRepository.save(user),UserServiceModel.class);
     }
 
@@ -77,7 +96,7 @@ public class UserServiceImpl implements UserService {
 
         if (user == null) {
             logger.error("The user " + username + " doesn't exist");
-            log.seedLogInDB(new LogServiceModel("anonimus","The user " + username + " doesn't exist"));
+            log.seedLogInDB(new LogServiceModel("anonymous","The user " + username + " doesn't exist"));
             throw new ResourceUnavailableException("The user " + username + " doesn't exist");
         }
 

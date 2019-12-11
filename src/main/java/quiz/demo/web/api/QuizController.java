@@ -47,7 +47,7 @@ public class QuizController extends BaseController {
     }
 
     @GetMapping(value = "")
-    @PreAuthorize("permitAll")
+    @PreAuthorize("permitAll()")
     @ResponseStatus(HttpStatus.OK)
     public Page<Quiz> findAll(Pageable pageable,
                               @RequestParam(required = false, defaultValue = "false") Boolean published) {
@@ -55,7 +55,7 @@ public class QuizController extends BaseController {
         if (published) {
             //if is not logged user
             Page<Quiz> allPublished = quizService.findAllPublished(pageable);
-            logger.debug("The Quiz's ar view " + allPublished.getTotalElements() + " is going to be created");
+            logger.debug("The Quiz's are view! Loaded " + allPublished.getTotalElements() + " quizzes");
 
             return allPublished;
         } else {

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import quiz.demo.data.model.Quiz;
 import quiz.demo.data.model.User;
 
-@Repository("QuizRepository")
+@Repository()
 public interface QuizRepository extends PagingAndSortingRepository<Quiz, Long> {
 
 	Page<Quiz> findByIsPublishedTrue(Pageable pageable);

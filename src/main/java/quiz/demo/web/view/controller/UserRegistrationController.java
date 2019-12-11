@@ -24,9 +24,7 @@ import javax.validation.Valid;
 public class UserRegistrationController {
 
     private final RegistrationService registrationService;
-
     private final UserService userService;
-
     private final MessageSource messageSource;
     private final ModelMapper modelMapper;
 
@@ -38,7 +36,6 @@ public class UserRegistrationController {
         this.registrationService = registrationService;
         this.userService = userService;
         this.messageSource = messageSource;
-
         this.modelMapper = modelMapper;
     }
 

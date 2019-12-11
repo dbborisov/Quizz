@@ -44,6 +44,12 @@ public class UserManagementController {
 		model.addAttribute("loginError", true);
 		return "login";
 	}
+	@GetMapping(value = "/all")
+	@PreAuthorize("permitAll")
+	public String allUsers() {
+
+		return "allUsers";
+	}
 
 	@GetMapping(value = "/forgotPassword")
 	@PreAuthorize("permitAll")

@@ -4,8 +4,10 @@ package quiz.demo.service.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import quiz.demo.data.model.Role;
 
 import java.util.Calendar;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -16,5 +18,6 @@ public class UserServiceModel {
     private String username;
     private String password;
     private boolean enabled;
-    private Calendar createdDate;
+    private Date createdDate;
+    private String role;
 }
