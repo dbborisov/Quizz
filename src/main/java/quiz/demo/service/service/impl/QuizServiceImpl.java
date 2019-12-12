@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import quiz.demo.data.model.Question;
 import quiz.demo.data.model.Quiz;
 import quiz.demo.data.model.User;
@@ -25,7 +26,8 @@ import quiz.demo.service.service.QuizService;
 
 import java.util.List;
 
-@Service
+@Service()
+@Transactional
 public class QuizServiceImpl  implements QuizService {
 
     private static final Logger logger = LoggerFactory.getLogger(QuizServiceImpl.class);

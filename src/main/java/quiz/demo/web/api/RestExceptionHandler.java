@@ -11,7 +11,7 @@ import quiz.demo.web.utils.ErrorInfo;
 
 import javax.servlet.http.HttpServletRequest;
 
-@ControllerAdvice("jorge.rv.quizzz.controller.rest.v1")
+@ControllerAdvice("quiz.demo.web.api")
 public class RestExceptionHandler {
 
 	@ExceptionHandler(UnauthorizedActionException.class)

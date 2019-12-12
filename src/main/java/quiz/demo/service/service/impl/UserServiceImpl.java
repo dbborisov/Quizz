@@ -112,7 +112,7 @@ public class UserServiceImpl implements UserService {
 
         if (user == null) {
             logger.error("The user " + id + " can't be found");
-            log.seedLogInDB(new LogServiceModel("anonimus","The user " + id + " can't be found"));
+            log.seedLogInDB(new LogServiceModel("anonymous","The user " + id + " can't be found"));
             throw new ResourceUnavailableException("User " + id + " not found.");
         }
 
@@ -148,7 +148,7 @@ public class UserServiceImpl implements UserService {
 
         if (user == null) {
             logger.error("The mail " + email + " can't be found");
-            log.seedLogInDB(new LogServiceModel("anonimus","The mail " + email + " can't be found"));
+            log.seedLogInDB(new LogServiceModel("anonymous","The mail " + email + " can't be found"));
             throw new ResourceUnavailableException("The mail " + email + " can't be found");
         }
 

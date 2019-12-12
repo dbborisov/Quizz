@@ -25,8 +25,7 @@ public class RestProfileController {
     @GetMapping(value = "all",produces = "application/json")
     @PreAuthorize("permitAll()")
     @ResponseStatus(HttpStatus.OK)
-    public List<UserServiceModel> getUsers(Pageable pageable,
-                                           @RequestParam(required = false, defaultValue = "false") Boolean published){
+    public List<UserServiceModel> getUsers(@RequestParam(required = false, defaultValue = "false") Boolean published){
         return this.userService.findAll();
 
     }
