@@ -20,6 +20,9 @@ import quiz.demo.service.model.UserServiceModel;
 import quiz.demo.service.service.LogService;
 import quiz.demo.service.service.UserService;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class UserServiceImpl implements UserService {
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
@@ -135,6 +138,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<UserServiceModel> findAll() {
+        return this.userRepository.findAll().stream().map(e->this.modelMapper.map(e,UserServiceModel.class)).collect(Collectors.toList());
+    }
+
+    @Override
     public UserServiceModel findByEmail(String email) throws ResourceUnavailableException {
         User user = userRepository.findByEmail(email);
 
@@ -148,7 +156,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserServiceModel updatePassword(UserServiceModel user, String password) throws ResourceUnavailableException {
+    public UserServiceModel updatePassword(User user, String password) throws ResourceUnavailableException {
         user.setPassword(passwordEncoder.encode(password));
         return modelMapper.map(userRepository.save(modelMapper.map(user,User.class)),UserServiceModel.class);
     }

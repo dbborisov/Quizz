@@ -33,6 +33,8 @@
 					          		<li><a th:href="|/user/quizzes|">My QuizZes</a></li>
 					          		<li role="separator" class="divider"></li>
 					          		<li><a href="/user/profile/">Profile</a></li>
+									<li sec:authorize="hasAnyAuthority('Admin','ROOT')" role="separator" class="divider"></li>
+									<li sec:authorize="hasAnyAuthority('Admin','ROOT')"><a href="/user/all/">User Management</a></li>
 									<li role="separator" class="divider"></li>
 									<li><a href="/logout">Logout</a></li>
 

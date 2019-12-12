@@ -3,19 +3,6 @@
 <head  th:replace="fragments/head :: headerFragment">
 </head>
 <body>
-	<script>
-		// function validateRegistrationForm() {
-		// 	password = document.forms["registrationForm"]["password"].value;
-		// 	repeatPassword = document.forms["registrationForm"]["repeatPassword"].value;
-		//
-		// 	if (password != repeatPassword) {
-		// 		alert("Passwords don't match!");
-		// 		return false;
-		// 	}
-		//
-		// 	return true;
-		// }
-	</script>
 
 	<div th:replace="fragments/header :: header">...</div>
 	
@@ -26,7 +13,7 @@
 		<div class="col-sm-4">
 			<h1 th:text="#{label.profile.title}" class="form-signin">form</h1>
 			<br/>
-<!--			<form action="/user/registration" th:object="${user}" method="POST" enctype="utf8"  name="registrationForm" onsubmit="return validateRegistrationForm();">-->
+
 			    <div>
 
 			        <label th:text="#{label.user.username}" >username</label><br/>
@@ -37,11 +24,11 @@
 			        <label th:text="#{label.user.email}" >email</label>
 			        <input disabled th:field="${model.email}" type="email" class="form-control"/>
 			    </div>
-			<div>
+<!--			<div>-->
 
-				<label th:text="#{label.user.password}" >password</label>
-				<input disabled th:field="${model.password}" class="form-control"/>
-			</div>
+<!--				<label th:text="#{label.user.password}" >password</label>-->
+<!--				<input disabled th:field="${model.password}" class="form-control"/>-->
+<!--			</div>-->
 			<div>
 
 				<label th:text="#{label.user.role}" >role</label>
@@ -53,27 +40,16 @@
 				<input disabled th:field="${model.createdDate}"  class="form-control"/>
 			</div>
 
-<!--			<div>-->
 
-<!--				<h1 sec:authorize="hasAuthority('Master_User')">  Successes </h1>   work!!!-->
-<!--			</div>-->
 			<div>
 
 				<h1 sec:authorize="hasRole('Master_User')">  Successes </h1>
-				<ul>
 
-<!--					works   -->
-<!--					<li sec:authorize="hasAnyAuthority('Master_User')">Master_User</li>-->
-<!--					<li sec:authorize="hasAnyAuthority('Admin','ROOT')">Admin</li>-->
-<!--					<li sec:authorize="hasAnyAuthority('ROOT')">ROOT</li>-->
-				</ul>
 			</div>
-<!--			<div th:if="${ #authorization.expression('isAuthenticated()') and #strings.contains(#authentication.principal.authorities,'Master_User')}">-->
-<!--				<a th:href="@{/somelink}">ADMIN LINK</a>-->
-<!--			</div>-->
+
 			<hr class="hr-2 w-25 bg-dark">
 			<div class="button-holder d-flex justify-content-center">
-				<a th:href="@{/users/edit}" class="btn btn-dark">Edit Profile</a>
+				<a href="/user/profile/edit" class="btn btn-dark">Edit Profile</a>
 			</div>
 		</div>
 	

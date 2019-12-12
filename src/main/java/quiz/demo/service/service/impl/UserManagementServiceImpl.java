@@ -4,6 +4,7 @@ package quiz.demo.service.service.impl;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import quiz.demo.data.model.User;
 import quiz.demo.data.repository.UserRepository;
 import quiz.demo.service.model.UserServiceModel;
 import quiz.demo.service.service.UserManagementService;
@@ -43,7 +44,8 @@ public class UserManagementServiceImpl implements UserManagementService {
 
 	@Override
 	public void updatePassword(UserServiceModel user, String password) {
-		userService.updatePassword(user, password);
+		User u = this.userRepository.findByUsername(user.getUsername());
+		userService.updatePassword(u, password);
 	}
 
 	@Override

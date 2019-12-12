@@ -22,16 +22,14 @@ import quiz.demo.service.service.UserManagementService;
 import quiz.demo.service.service.UserService;
 import quiz.demo.web.utils.RestVerifier;
 
-import javax.annotation.security.PermitAll;
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
-@RequestMapping(UserController.ROOT_MAPPING)
-public class UserController {
+@RequestMapping(RestUserController.ROOT_MAPPING)
+public class RestUserController {
 
 	public static final String ROOT_MAPPING = "/api/users";
-	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+	private static final Logger logger = LoggerFactory.getLogger(RestUserController.class);
 	private RegistrationService registrationService;
 
 	private UserManagementService userManagementService;
@@ -41,7 +39,7 @@ public class UserController {
 	private QuizService quizService;
 
 	@Autowired
-	public UserController(RegistrationService registrationService, UserManagementService userManagementService, UserService userService, QuizService quizService) {
+	public RestUserController(RegistrationService registrationService, UserManagementService userManagementService, UserService userService, QuizService quizService) {
 		this.registrationService = registrationService;
 		this.userManagementService = userManagementService;
 		this.userService = userService;
@@ -130,19 +128,6 @@ public class UserController {
 		return user;
 	}
 
-	@GetMapping(value = "all")
-	@PreAuthorize("permitAll()")
-	@ResponseStatus(HttpStatus.OK)
-	public List<UserServiceModel> getUsers(){
-		return this.userManagementService.findAll();
-	}
 
-	@GetMapping(value = "all/{id}")
-	@PreAuthorize("permitAll()")
-	@ResponseStatus(HttpStatus.OK)
-	public UserServiceModel getUser(@PathVariable Long id){
-		UserServiceModel user = this.userService.find(id);
-		return user; //todo
-	}
 
 }

@@ -27,12 +27,12 @@ import java.security.Principal;
 import java.util.List;
 
 @RestController
-@RequestMapping(QuizController.ROOT_MAPPING)
-public class QuizController extends BaseController {
+@RequestMapping(RestQuizController.ROOT_MAPPING)
+public class RestQuizController extends BaseController {
 
     public static final String ROOT_MAPPING = "/api/quizzes";
 
-    private static final Logger logger = LoggerFactory.getLogger(QuizController.class);
+    private static final Logger logger = LoggerFactory.getLogger(RestQuizController.class);
 
 
     private QuizService quizService;
@@ -40,7 +40,7 @@ public class QuizController extends BaseController {
 
 
     @Autowired
-    public QuizController(LogService log, QuizService quizService, QuestionService questionService) {
+    public RestQuizController(LogService log, QuizService quizService, QuestionService questionService) {
         super();
         this.quizService = quizService;
         this.questionService = questionService;
@@ -54,6 +54,7 @@ public class QuizController extends BaseController {
 
         if (published) {
             //if is not logged user
+
             Page<Quiz> allPublished = quizService.findAllPublished(pageable);
             logger.debug("The Quiz's are view! Loaded " + allPublished.getTotalElements() + " quizzes");
 

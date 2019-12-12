@@ -14,6 +14,7 @@ public interface UserManagementService {
 
 	void updatePassword(UserServiceModel user, String password);
 
+
 	List<UserServiceModel> findAll();
 
 }

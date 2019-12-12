@@ -17,7 +17,6 @@ import quiz.demo.exceptions.ModelVerificationException;
 import quiz.demo.service.accesscontrol.AccessControlService;
 import quiz.demo.service.service.QuestionService;
 import quiz.demo.service.service.QuizService;
-import quiz.demo.web.api.UserController;
 import quiz.demo.web.utils.RestVerifier;
 
 import javax.validation.Valid;

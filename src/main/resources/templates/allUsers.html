@@ -1,9 +1,9 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org" ng-app="angularTable">
+<html xmlns:th="http://www.thymeleaf.org" >
 <head th:replace="fragments/head :: headerFragment">
 </head>
 
-<body>
+<body ng-app="angularTable">
 <div th:replace="fragments/header :: header">...</div>
 <main class="container">
     <h1>User Management</h1>
@@ -67,69 +67,8 @@
         </div>
     </div>
 
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.1/angular.js"></script>
     <script type="text/javascript" src="..userApp.js" th:src="@{/js/userApp.js}"></script>
     <script type="text/javascript" src="..dirPagination.js" th:src="@{/js/dirPagination.js}"></script>
 </main>
 </body>
-
-
-<!--<body  ng-app="todos" ng-controller="TodoController">-->
-<!--<div th:replace="fragments/header :: header">...</div>-->
-<!--<main  class="container">-->
-<!--<h1>User Management</h1>-->
-<!--&lt;!&ndash;						<li sec:authorize="hasAnyAuthority('Master_User')">Master_User</li>&ndash;&gt;-->
-<!--&lt;!&ndash;						<li sec:authorize="hasAnyAuthority('Admin','ROOT')">Admin</li>&ndash;&gt;-->
-<!--&lt;!&ndash;						<li sec:authorize="hasAnyAuthority('ROOT')">ROOT</li>&ndash;&gt;-->
-<!--<h4>{{todos.length}} total</h4>-->
-<!--&lt;!&ndash;<h4>{{filteredTodos}} total</h4>&ndash;&gt;-->
-<!--	<table class="table table-hover" align="center">-->
-<!--		<thead>-->
-<!--		<tr>-->
-<!--			<th th:text="#{label.users.all.usernameid }" width="70%">user</th>-->
-<!--			<th th:text="#{label.users.all.email}">email</th>-->
-<!--			<th th:text="#{label.users.all.isenable}">isenable</th>-->
-<!--			<th th:text="#{label.users.all.createDate}"></th>-->
-<!--			<th th:text="#{label.users.all.editUseer}">edit!</th>-->
-<!--		</tr>-->
-<!--		</thead>-->
-<!--		<tbody>-->
-<!--		<tr ng-repeat="todo in filteredTodos">-->
-<!--			<td>-->
-<!--				<h4>{{todo.username}}</h4>-->
-<!--				<h5><small class="text-muted">{{todo.id}}</small></h5>-->
-<!--			</td>-->
-<!--			<td >-->
-<!--				<p>{{todo.email }}</p>-->
-<!--			</td>-->
-<!--			<td>-->
-<!--				<p>{{todo.enabled }}</p>-->
-<!--			</td>-->
-<!--			<td sec:authorize="isAuthenticated()">-->
-<!--				<p>{{todo.createdDate | date }}</p>-->
-<!--			</td>-->
-<!--			<td>-->
-<!--				<a href="/quiz/{{todo.id}}" class="btn btn-warning">-->
-<!--					<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>-->
-<!--				</a>-->
-<!--			</td>-->
-<!--		</tr>-->
-<!--		</tbody>-->
-<!--	</table>-->
-
-<!--<pagination id="for-rerun"-->
-<!--		ng-model="currentPage"-->
-<!--		total-items="todos.length"-->
-<!--		max-size="maxSize"-->
-<!--		boundary-links="true">-->
-<!--</pagination>-->
-
-<!--&lt;!&ndash;	<script>&ndash;&gt;-->
-<!--&lt;!&ndash;		console.log(document.getElementById("for-rerun"));&ndash;&gt;-->
-<!--&lt;!&ndash;	</script>&ndash;&gt;-->
-<!--</main>-->
-
-<!--</body>-->
-
 </html>

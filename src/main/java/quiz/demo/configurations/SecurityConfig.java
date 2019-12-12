@@ -14,7 +14,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
-import quiz.demo.web.api.UserController;
+import quiz.demo.web.api.RestUserController;
 
 import javax.sql.DataSource;
 
@@ -57,8 +57,8 @@ public class SecurityConfig {
 					.csrf()
 						.disable()
 					.logout()
-						.logoutUrl(UserController.ROOT_MAPPING + "/logout")
-						.logoutSuccessUrl(UserController.ROOT_MAPPING + "/logoutDummy")
+						.logoutUrl(RestUserController.ROOT_MAPPING + "/logout")
+						.logoutSuccessUrl(RestUserController.ROOT_MAPPING + "/logoutDummy")
 						.deleteCookies("JSESSIONID")
 						.invalidateHttpSession(true);
 		}

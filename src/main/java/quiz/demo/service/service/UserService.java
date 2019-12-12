@@ -7,6 +7,8 @@ import quiz.demo.exceptions.UnauthorizedActionException;
 import quiz.demo.exceptions.UserAlreadyExistsException;
 import quiz.demo.service.model.UserServiceModel;
 
+import java.util.List;
+
 public interface UserService extends UserDetailsService {
     UserServiceModel saveUser(User user) throws UserAlreadyExistsException;
 
@@ -16,12 +18,14 @@ public interface UserService extends UserDetailsService {
 
     UserServiceModel findByUsername(String username) throws ResourceUnavailableException;
 
-    UserServiceModel updatePassword(UserServiceModel user, String password) throws ResourceUnavailableException;
+    UserServiceModel updatePassword(User user, String password) throws ResourceUnavailableException;
 
     void delete(Long user_id) throws UnauthorizedActionException, ResourceUnavailableException;
 
     UserServiceModel setRegistrationCompleted(UserServiceModel user) throws ResourceUnavailableException;
 
     boolean isRegistrationCompleted(UserServiceModel user) throws ResourceUnavailableException;
+
+    List<UserServiceModel> findAll();
 
 }

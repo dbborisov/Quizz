@@ -18,8 +18,8 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping(QuestionController.ROOT_MAPPING)
-public class QuestionController {
+@RequestMapping(RestQuestionController.ROOT_MAPPING)
+public class RestQuestionController {
 
 	public static final String ROOT_MAPPING = "/api/questions";
 

@@ -15,8 +15,8 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping(AnswerController.ROOT_MAPPING)
-public class AnswerController {
+@RequestMapping(RestAnswerController.ROOT_MAPPING)
+public class RestAnswerController {
 
 	public static final String ROOT_MAPPING = "/api/answers";
 
