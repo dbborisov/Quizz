@@ -16,8 +16,6 @@ import quiz.demo.service.model.UserServiceModel;
 import quiz.demo.service.service.UserManagementService;
 import quiz.demo.service.service.UserService;
 
-import java.security.Principal;
-
 @Controller
 @RequestMapping("/user")
 public class UserManagementController extends BaseController {
@@ -63,7 +61,7 @@ public class UserManagementController extends BaseController {
         String userRole= user.getUser().getRole().toString();
       if(userRole.equals("Admin") ||userRole.equals("ROOT") ) {
           modelAndView
-                  .addObject("model", this.userService.find(id));
+                  .addObject("model", this.userService.findById(id));
           return super.view("editUserProfile", modelAndView);
       }
       return modelAndView;
@@ -92,7 +90,7 @@ public class UserManagementController extends BaseController {
     @GetMapping(value = "/{user_id}/resetPassword")
     @PreAuthorize("permitAll")
     public ModelAndView resetPassword(@PathVariable Long user_id, String token) {
-        UserServiceModel user = userService.find(user_id);
+        UserServiceModel user = userService.findById(user_id);
         userManagementService.verifyResetPasswordToken(user, token);
 
         ModelAndView mav = new ModelAndView();
@@ -106,7 +104,7 @@ public class UserManagementController extends BaseController {
     @PostMapping(value = "/{user_id}/resetPassword")
     @PreAuthorize("permitAll")
     public String resetPassword(@PathVariable Long user_id, String token, String password) {
-        UserServiceModel user = userService.find(user_id);
+        UserServiceModel user = userService.findById(user_id);
         userManagementService.verifyResetPasswordToken(user, token);
 
         userManagementService.updatePassword(user, password);

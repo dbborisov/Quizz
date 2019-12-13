@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import quiz.demo.service.service.UserService;
 
 @Controller
@@ -26,7 +25,7 @@ public class WebUserController {
 	@PreAuthorize("permitAll")
 
 	public String getQuizzesForUser(@PathVariable Long user_id) {
-		userService.find(user_id);
+		userService.findById(user_id);
 
 		// TODO: Unimplemented
 		return "error";

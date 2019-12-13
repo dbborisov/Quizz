@@ -72,7 +72,7 @@ public class UserRegistrationController {
     @GetMapping(value = "/{user_id}/continueRegistration")
     @PreAuthorize("permitAll")
     public ModelAndView nextRegistrationStep(@PathVariable Long user_id, String token) {
-        UserServiceModel user = userService.find(user_id);
+        UserServiceModel user = userService.findById(user_id);
         registrationService.continueRegistration(user, token);
 
         ModelAndView mav = new ModelAndView();

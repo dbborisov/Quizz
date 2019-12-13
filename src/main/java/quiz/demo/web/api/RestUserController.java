@@ -63,7 +63,7 @@ public class RestUserController {
 	@GetMapping(value = "/{user_id}/continueRegistration")
 	@PreAuthorize("permitAll")
 	public ResponseEntity<UserServiceModel> nextRegistrationStep(@PathVariable Long user_id, String token) {
-		UserServiceModel user = userService.find(user_id);
+		UserServiceModel user = userService.findById(user_id);
 		registrationService.continueRegistration(user, token);
 
 		if (registrationService.isRegistrationCompleted(user)) {
@@ -87,7 +87,7 @@ public class RestUserController {
 	public Page<Quiz> getQuizzesByUser(Pageable pageable, @PathVariable Long user_id) {
 		logger.debug("Requested page " + pageable.getPageNumber() + " from user " + user_id);
 
-		UserServiceModel user = userService.find(user_id);
+		UserServiceModel user = userService.findById(user_id);
 		return quizService.findQuizzesByUser(user, pageable);
 	}
 	

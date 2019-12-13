@@ -12,7 +12,7 @@ import java.util.List;
 public interface UserService extends UserDetailsService {
     UserServiceModel saveUser(User user) throws UserAlreadyExistsException;
 
-    UserServiceModel find(Long id) throws ResourceUnavailableException;
+    UserServiceModel findById(Long id) throws ResourceUnavailableException;
 
     UserServiceModel findByEmail(String email) throws ResourceUnavailableException;
 
@@ -20,7 +20,7 @@ public interface UserService extends UserDetailsService {
 
     UserServiceModel updatePassword(User user, String password) throws ResourceUnavailableException;
 
-    void delete(Long user_id) throws UnauthorizedActionException, ResourceUnavailableException;
+    boolean delete(Long user_id) throws UnauthorizedActionException, ResourceUnavailableException;
 
     UserServiceModel setRegistrationCompleted(UserServiceModel user) throws ResourceUnavailableException;
 

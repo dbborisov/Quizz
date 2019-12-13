@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
         }
         if (userRepository.findByUsername(user.getUsername()) != null) {
             logger.error("The username " + user.getUsername() + " is already in use");
-            log.seedLogInDB(new LogServiceModel("anonymous","The mail " + user.getEmail() + " is already in use"));
+            log.seedLogInDB(new LogServiceModel("anonymous","The Username " + user.getEmail() + " is already in use"));
             throw new UserAlreadyExistsException("The username or email  is already in use");
         }
 
@@ -79,7 +79,7 @@ public class UserServiceImpl implements UserService {
      */
     public AuthenticatedUser loadUserByUsername(String username) throws UsernameNotFoundException {
         UserServiceModel user;
-
+                //todo may be bather to use findByEmailOrUsername
         try {
             user = findByUsername(username);
         } catch (ResourceUnavailableException e) {
@@ -107,28 +107,33 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserServiceModel find(Long id) throws ResourceUnavailableException {
+    public UserServiceModel findById(Long id) throws ResourceUnavailableException {
         User user = userRepository.findById(id).orElse(null);
 
         if (user == null) {
-            logger.error("The user " + id + " can't be found");
-            log.seedLogInDB(new LogServiceModel("anonymous","The user " + id + " can't be found"));
-            throw new ResourceUnavailableException("User " + id + " not found.");
+            logger.error("The user with id" + id + " can't be found");
+            log.seedLogInDB(new LogServiceModel("anonymous","The user with id" + id + " can't be found"));
+            throw new ResourceUnavailableException("User with id " + id + " not found.");
         }
 
         return modelMapper.map(user,UserServiceModel.class);
     }
 
     @Override
-    public void delete(Long user_id) throws UnauthorizedActionException, ResourceUnavailableException {
-        UserServiceModel userToDelete = find(user_id);
+    public boolean delete(Long user_id) throws UnauthorizedActionException, ResourceUnavailableException {
+        UserServiceModel userToDelete = findById(user_id);
 
         userRepository.delete(modelMapper.map(userToDelete,User.class));
+        return true;
     }
 
     @Override
     public UserServiceModel setRegistrationCompleted(UserServiceModel user) {
+        if(user==null){
+            return null;
+        }
         user.setEnabled(true);
+
         return modelMapper.map(userRepository.save(modelMapper.map(user,User.class)),UserServiceModel.class);
     }
 
