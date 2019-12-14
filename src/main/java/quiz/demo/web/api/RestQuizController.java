@@ -101,7 +101,7 @@ public class RestQuizController extends BaseController {
         RestVerifier.verifyModelResult(result);
 
         quiz.setId(quiz_id);
-        logPrincipal(principal,"User update quiz with id = "+quiz_id);
+        log(principal,"User update quiz with id = "+quiz_id);
         return quizService.update(quiz);
     }
 
@@ -135,15 +135,16 @@ public class RestQuizController extends BaseController {
     public void publishQuiz(@PathVariable long quiz_id,Principal principal) {
         Quiz quiz = quizService.find(quiz_id);
         quizService.publishQuiz(quiz);
-        logPrincipal(principal,principal.getName() +" publish quiz id = "+ quiz_id);
+        log(principal,principal.getName() +" publish quiz id = "+ quiz_id);
     }
 
     @PostMapping(value = "/{quiz_id}/submitAnswers")
     @PreAuthorize("permitAll")
     @ResponseStatus(HttpStatus.OK)
     public Result playQuiz(@PathVariable long quiz_id, @RequestBody List<Response> answersBundle, Principal principal) {
+
         Quiz quiz = quizService.find(quiz_id);
-        logPrincipal(principal,""+quiz_id);
+        log(principal,""+quiz_id);
         return quizService.checkAnswers(quiz, answersBundle);
     }
 

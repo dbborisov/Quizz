@@ -33,7 +33,7 @@ public abstract class BaseController {
         return this.view("redirect:" + url);
     }
 
-    public void logPrincipal(Principal principal, String... data) {
+    public void log(Principal principal, String... data) {
         if (principal != null) {
 
             log.seedLogInDB(new LogServiceModel(principal.getName(), " played quiz with id = " + Arrays.stream(data).collect(Collectors.joining(" "))));
