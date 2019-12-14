@@ -44,14 +44,14 @@ public class UserManagementController extends BaseController {
     @PreAuthorize("permitAll")
     public String loginError(@ModelAttribute User user, Model model) {
         model.addAttribute("loginError", true);
-        return "login";
+        return "user/login";
     }
 
     @GetMapping(value = "/all")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("permitAll")
     public String allUsers() {
 
-        return "allUsers";
+        return "user/allUsers";
     }
 
     @GetMapping(value = "all/edit/{id}")
@@ -62,7 +62,7 @@ public class UserManagementController extends BaseController {
       if(userRole.equals("Admin") ||userRole.equals("ROOT") ) {
           modelAndView
                   .addObject("model", this.userService.findById(id));
-          return super.view("editUserProfile", modelAndView);
+          return super.view("user/editUserProfile", modelAndView);
       }
       return modelAndView;
     }
@@ -70,7 +70,7 @@ public class UserManagementController extends BaseController {
     @GetMapping(value = "/forgotPassword")
     @PreAuthorize("permitAll")
     public String forgotPassword() {
-        return "forgotPassword";
+        return "user/forgotPassword";
     }
 
     @PostMapping(value = "/forgotPassword")
@@ -96,7 +96,7 @@ public class UserManagementController extends BaseController {
         ModelAndView mav = new ModelAndView();
         mav.addObject("user", user);
         mav.addObject("token", token);
-        mav.setViewName("resetPassword");
+        mav.setViewName("user/resetPassword");
 
         return mav;
     }
@@ -109,6 +109,6 @@ public class UserManagementController extends BaseController {
 
         userManagementService.updatePassword(user, password);
 
-        return "login";
+        return "user/login";
     }
 }

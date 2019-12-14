@@ -58,7 +58,7 @@ public class HomeController extends BaseController{
     public String newQuiz(Map<String, Object> model) {
 
       logger.debug("Entering the creat Quiz GetMapping");
-        return "createQuiz";
+        return "quiz/createQuiz";
     }
 
     @PostMapping(value = "/createQuiz")
@@ -71,7 +71,7 @@ public class HomeController extends BaseController{
             RestVerifier.verifyModelResult(result);
             newQuiz = quizService.save(quiz, user.getUser());
         } catch (ModelVerificationException e) {
-            return "createQuiz";
+            return "quiz/createQuiz";
         }
 
         return "redirect:/editQuiz/" + newQuiz.getId();
@@ -85,7 +85,7 @@ public class HomeController extends BaseController{
 
         ModelAndView mav = new ModelAndView();
         mav.addObject("quiz", quiz);
-        mav.setViewName("editQuiz");
+        mav.setViewName("quiz/editQuiz");
 
         return mav;
     }
@@ -98,7 +98,7 @@ public class HomeController extends BaseController{
 
         ModelAndView mav = new ModelAndView();
         mav.addObject("question", question);
-        mav.setViewName("editAnswers");
+        mav.setViewName("quiz/editAnswers");
 
         return mav;
     }
@@ -110,7 +110,7 @@ public class HomeController extends BaseController{
 
         ModelAndView mav = new ModelAndView();
         mav.addObject("quiz", quiz);
-        mav.setViewName("quizView");
+        mav.setViewName("quiz/quizView");
 
         return mav;
     }
@@ -122,7 +122,7 @@ public class HomeController extends BaseController{
 
         ModelAndView mav = new ModelAndView();
         mav.addObject("quiz", quiz);
-        mav.setViewName("playQuiz");
+        mav.setViewName("quiz/playQuiz");
 
         return mav;
     }

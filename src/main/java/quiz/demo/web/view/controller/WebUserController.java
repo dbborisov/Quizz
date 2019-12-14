@@ -34,7 +34,7 @@ public class WebUserController {
 	@GetMapping(value = "/quizzes")
 	@PreAuthorize("isAuthenticated()")
 	public String getQuizzesForAuthenticatedUser() {
-		return "myQuizzes";
+		return "quiz/myQuizzes";
 	}
 
 

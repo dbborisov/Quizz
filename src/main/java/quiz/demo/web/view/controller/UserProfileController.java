@@ -40,7 +40,7 @@ public class UserProfileController extends BaseController {
     public ModelAndView getProfile(Principal principal, ModelAndView modelAndView){
         modelAndView
                 .addObject("model", this.userService.findByUsername(principal.getName()));
-        return super.view("userProfile",modelAndView);
+        return super.view("user/userProfile",modelAndView);
     }
 
     @GetMapping(value = "/edit")
@@ -48,7 +48,7 @@ public class UserProfileController extends BaseController {
     public ModelAndView editProfile(Principal principal, ModelAndView modelAndView){
         modelAndView
                 .addObject("model", this.userService.findByUsername(principal.getName()));
-        return super.view("editUserProfile",modelAndView);
+        return super.view("user/editUserProfile",modelAndView);
     }
 
     @PostMapping(value = "/edit")
@@ -61,7 +61,7 @@ UserServiceModel userNew = this.userService.findByUsername(user.getUsername());
             RestVerifier.verifyModelResult(result);
            userManagementService.updatePassword(userNew,user.getPassword());
         } catch (ModelVerificationException e) {
-            mav.setViewName("registration");
+            mav.setViewName("user/registration");
             return mav;
         }
 

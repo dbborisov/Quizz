@@ -45,7 +45,7 @@ public class UserRegistrationController {
     public String showRegistrationForm( Model model) {
         ModelAndView modelAndView = new ModelAndView();
         model.addAttribute("user", new UserServiceModel());
-        return "registration";
+        return "user/registration";
     }
 
     @PostMapping(value = "/registration")
@@ -58,11 +58,11 @@ public class UserRegistrationController {
             RestVerifier.verifyModelResult(result);
             newUser = registrationService.startRegistration(user);
         } catch (ModelVerificationException e) {
-            mav.setViewName("registration");
+            mav.setViewName("user/registration");
             return mav;
         } catch (UserAlreadyExistsException e) {
             result.rejectValue("email", "label.user.emailInUse");
-            mav.setViewName("registration");
+            mav.setViewName("user/registration");
             return mav;
         }
 
