@@ -48,7 +48,7 @@ public class UserManagementController extends BaseController {
     }
 
     @GetMapping(value = "/all")
-    @PreAuthorize("permitAll")
+    @PreAuthorize("isAuthenticated()")
     public String allUsers() {
 
         return "allUsers";

@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
         if (userRepository.findByEmail(user.getEmail()) != null) {
             logger.error("The mail " + user.getEmail() + " is already in use");
             log.seedLogInDB(new LogServiceModel("anonymous","The mail " + user.getEmail() + " is already in use"));
-            throw new UserAlreadyExistsException("The mail  or email is already in use");
+            throw new UserAlreadyExistsException("The user  or email is already in use");
         }
         if (userRepository.findByUsername(user.getUsername()) != null) {
             logger.error("The username " + user.getUsername() + " is already in use");
@@ -111,7 +111,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(id).orElse(null);
 
         if (user == null) {
-            logger.error("The user with id" + id + " can't be found");
+            logger.error("The user with id " + id + " can't be found");
             log.seedLogInDB(new LogServiceModel("anonymous","The user with id" + id + " can't be found"));
             throw new ResourceUnavailableException("User with id " + id + " not found.");
         }
@@ -122,6 +122,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean delete(Long user_id) throws UnauthorizedActionException, ResourceUnavailableException {
         UserServiceModel userToDelete = findById(user_id);
+        if(userToDelete == null){
+            return false;
+        }
 
         userRepository.delete(modelMapper.map(userToDelete,User.class));
         return true;
@@ -164,5 +167,9 @@ public class UserServiceImpl implements UserService {
     public UserServiceModel updatePassword(User user, String password) throws ResourceUnavailableException {
         user.setPassword(passwordEncoder.encode(password));
         return modelMapper.map(userRepository.save(modelMapper.map(user,User.class)),UserServiceModel.class);
+    }
+    @Override
+    public List<UserServiceModel> findAllWithoutROOT(){
+        return this.userRepository.findAllByRoleNotLike(Role.ROOT).stream().map(e->this.modelMapper.map(e,UserServiceModel.class)).collect(Collectors.toList());
     }
 }

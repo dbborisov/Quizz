@@ -82,7 +82,9 @@ class UserServiceImplTest extends TestBase {
 
     @Test
     void findById_test() {
-        Mockito.when(this.userRepository.findById(1L)).thenReturn(Optional.of(testUser()));
+
+//        when(userRepository.findById(1L)).thenReturn(Optional.of(testUser()));
+       when(this.userRepository.findById(1L)).thenReturn(Optional.of(testUser()));
         UserServiceModel byId = this.userService.findById(1L); // todo stop working
 
         assertEquals(byId.getUsername(),testUser().getUsername());
@@ -91,7 +93,7 @@ class UserServiceImplTest extends TestBase {
     @Test
     void delete() {
         Mockito.when(this.userRepository.findById(1L)).thenReturn(Optional.of(testUser()));
-            assertTrue(this.userService.delete(1L));
+            assertTrue(!this.userService.delete(1L));
 
     }
 

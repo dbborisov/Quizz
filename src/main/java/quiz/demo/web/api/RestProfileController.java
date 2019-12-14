@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import quiz.demo.service.model.UserServiceModel;
 import quiz.demo.service.service.UserService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -22,15 +23,17 @@ public class RestProfileController {
 
 
     @GetMapping(value = "all",produces = "application/json")
-    @PreAuthorize("permitAll()")
+    @PreAuthorize("isAuthenticated()")
     @ResponseStatus(HttpStatus.OK)
-    public List<UserServiceModel> getUsers(@RequestParam(required = false, defaultValue = "false") Boolean published){
-        return this.userService.findAll();
+    public List<UserServiceModel> getUsers(){
+        List<UserServiceModel> allWithoutROOT = this.userService.findAllWithoutROOT();
+//        new ResponseStatus(HttpStatus.OK);
+        return this.userService.findAllWithoutROOT();
 
     }
 
     @GetMapping(value = "all/{id}") // todo routing is not correct
-    @PreAuthorize("permitAll()")
+    @PreAuthorize("isAuthenticated()")
     @ResponseStatus(HttpStatus.OK)
     public UserServiceModel getUser(@PathVariable Long id){
         UserServiceModel user = this.userService.findById(id);

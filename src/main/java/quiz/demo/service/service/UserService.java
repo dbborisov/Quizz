@@ -27,5 +27,5 @@ public interface UserService extends UserDetailsService {
     boolean isRegistrationCompleted(UserServiceModel user) throws ResourceUnavailableException;
 
     List<UserServiceModel> findAll();
-
+    List<UserServiceModel> findAllWithoutROOT();
 }
