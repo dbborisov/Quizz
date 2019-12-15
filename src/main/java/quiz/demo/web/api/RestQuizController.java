@@ -16,9 +16,11 @@ import quiz.demo.data.model.Question;
 import quiz.demo.data.model.Quiz;
 import quiz.demo.data.model.support.Response;
 import quiz.demo.data.model.support.Result;
+import quiz.demo.service.model.ScoreServiceModel;
 import quiz.demo.service.service.LogService;
 import quiz.demo.service.service.QuestionService;
 import quiz.demo.service.service.QuizService;
+import quiz.demo.service.service.ScoreService;
 import quiz.demo.web.utils.RestVerifier;
 import quiz.demo.web.view.controller.BaseController;
 
@@ -37,13 +39,15 @@ public class RestQuizController extends BaseController {
 
     private QuizService quizService;
     private QuestionService questionService;
+    private ScoreService score;
 
 
     @Autowired
-    public RestQuizController(LogService log, QuizService quizService, QuestionService questionService) {
+    public RestQuizController(LogService log, QuizService quizService, QuestionService questionService, ScoreService score) {
         super();
         this.quizService = quizService;
         this.questionService = questionService;
+        this.score = score;
     }
 
     @GetMapping(value = "")
@@ -144,8 +148,19 @@ public class RestQuizController extends BaseController {
     public Result playQuiz(@PathVariable long quiz_id, @RequestBody List<Response> answersBundle, Principal principal) {
 
         Quiz quiz = quizService.find(quiz_id);
+        ScoreServiceModel scoreModel = new ScoreServiceModel();
+        scoreModel.setQuizId(quiz_id);
+        if(principal==null){
+            scoreModel.setUsername("anonymous");
+        }else{
+        scoreModel.setUsername(principal.getName());
+        }
+        scoreModel.setQuizName(quiz.getName());
+        Result result = quizService.checkAnswers(quiz, answersBundle);
+        scoreModel.setScore(((result.getCorrectQuestions()*1.0)/(result.getTotalQuestions()*1.0))*100);
+        score.save(scoreModel);
         log(principal,""+quiz_id);
-        return quizService.checkAnswers(quiz, answersBundle);
+        return result;
     }
 
 

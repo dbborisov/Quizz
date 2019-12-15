@@ -13,7 +13,7 @@ public interface UserManagementService {
 	void verifyResetPasswordToken(UserServiceModel user, String token);
 
 	void updatePassword(UserServiceModel user, String password);
-
+	void updatePasswordAndRole(UserServiceModel user, String password,String role);
 
 	List<UserServiceModel> findAll();
 

@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import quiz.demo.data.model.Question;
@@ -19,12 +20,15 @@ import quiz.demo.exceptions.ActionRefusedException;
 import quiz.demo.exceptions.InvalidParametersException;
 import quiz.demo.exceptions.ResourceUnavailableException;
 import quiz.demo.exceptions.UnauthorizedActionException;
+import quiz.demo.service.model.ScoreServiceModel;
 import quiz.demo.service.model.UserServiceModel;
 import quiz.demo.service.service.LogService;
 import quiz.demo.service.service.QuestionService;
 import quiz.demo.service.service.QuizService;
+import quiz.demo.service.service.ScoreService;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @Service()
 @Transactional
@@ -35,13 +39,17 @@ public class QuizServiceImpl  implements QuizService {
     private final ModelMapper modelMapper;
     private  final LogService log;
     private QuestionService questionService;
+    private final ScoreService score;
+
+
 
     @Autowired
-    public QuizServiceImpl(QuizRepository quizRepository, ModelMapper modelMapper, LogService log, QuestionService questionService) {
+    public QuizServiceImpl(QuizRepository quizRepository, ModelMapper modelMapper, LogService log, QuestionService questionService, ScoreService score) {
         this.quizRepository = quizRepository;
         this.modelMapper = modelMapper;
         this.log = log;
         this.questionService = questionService;
+        this.score = score;
     }
 
     @Override
@@ -143,6 +151,26 @@ public class QuizServiceImpl  implements QuizService {
 
             throw new ActionRefusedException("The quiz doesn't have any valid questions");
         }
+    }
+
+    @Async
+    public CompletableFuture asyncAllQuiz() throws InterruptedException {
+
+
+        List<ScoreServiceModel> all = score.findAll();
+        StringBuilder builder = new StringBuilder();
+        builder.append(String.format("All quiz play are %s: ",all.size()));
+        builder.append(System.lineSeparator());
+//        all.forEach(e->{
+//          builder.append(String.format("Quiz with name %s",e.getQuizName()))  ;
+//          builder.append(System.lineSeparator());
+//        });
+        logger.debug(builder.toString());
+
+
+
+        Thread.sleep(100000L);
+        return CompletableFuture.completedFuture(builder.toString()) ;
     }
 
 }

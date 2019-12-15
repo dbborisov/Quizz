@@ -2,16 +2,16 @@ package quiz.demo.service.model;
 
 public abstract class BaseServiceModel {
 
-    private String id;
+    private long id;
 
     protected BaseServiceModel() {
     }
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 }

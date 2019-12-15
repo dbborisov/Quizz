@@ -17,12 +17,12 @@
 				<div>
 					<p th:each="error: ${#fields.errors('username')}" th:text="${error}">Validation error</p>
 					<label th:text="#{label.user.username}" >username</label><br/>
-					<input th:field="*{username}" class="form-control" required="true" autofocus="true" />
+					<input disabled th:field="*{username}" class="form-control" required="true" autofocus="true" />
 				</div>
 				<div>
 					<p th:each="error: ${#fields.errors('email')}" th:text="${error}">Validation error</p>
 					<label th:text="#{label.user.email}" >email</label>
-					<input th:field="*{email}" type="email" class="form-control" required="true"/>
+					<input disabled th:field="*{email}" type="email" class="form-control" required="true"/>
 				</div>
 				<div>
 					<p th:each="error: ${#fields.errors('password')}" th:text="${error}">Validation error</p>
@@ -34,7 +34,7 @@
 					<input name="repeatPassword" type="password" class="form-control" required="true" />
 				</div>
 				<br/>
-				<button th:text="#{label.registration.submit}" type="submit" class="btn btn-lg btn-primary btn-block">submit</button>
+				<button th:text="#{label.edit.profile.button}" type="submit" class="btn btn-lg btn-primary btn-block">submit</button>
 			</form>
 		</div>
 	

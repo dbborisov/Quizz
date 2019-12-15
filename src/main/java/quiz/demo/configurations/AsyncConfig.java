@@ -1,5 +1,6 @@
 package quiz.demo.configurations;
 
+import org.springframework.boot.SpringApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -10,6 +11,11 @@ import java.util.concurrent.Executor;
 @Configuration
 @EnableAsync
 public class AsyncConfig {
+
+
+	public static void main(String[] args) {
+		SpringApplication.run(AsyncConfig.class, args).close();
+	}
 
 	@Bean
 	public Executor asyncExecutor() {

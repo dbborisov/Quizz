@@ -84,10 +84,10 @@ public class UserServiceTests {
 	public void testDeleteUnexistentUser() throws QuizZzException {
 
 		when(userRepository.findById(3L)).thenReturn(null);
-//		Assertions.assertThrows( ResourceUnavailableException.class,() -> {
-//
-//		});
-		assertTrue(!(service.delete(user.getId())));
+		Assertions.assertThrows( ResourceUnavailableException.class,() -> {
+			service.delete(user.getId());
+		});
+//		assertTrue(!(service.delete(user.getId())));
 	}
 
 	@Test
@@ -101,7 +101,10 @@ public class UserServiceTests {
 		doThrow(new UnauthorizedActionException()).when(userRepository).delete(user);
 
 
-		assertFalse(service.delete(5L));
+		Assertions.assertThrows(ResourceUnavailableException.class,() -> {
+			service.delete(5L);
+	});
+//		assertFalse(service.delete(5L));
 
 
 	}

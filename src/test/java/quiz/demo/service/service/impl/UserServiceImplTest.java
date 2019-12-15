@@ -39,23 +39,23 @@ class UserServiceImplTest extends TestBase {
 
 
     User created;
-//
-//    @BeforeEach
-//    public void init() {
-//        User   user = new User();
-//        user.setUsername("TestUser");
-//        user.setRole(Role.Admin);
-//        user.setEnabled(true);
-//        user.setEmail("test@test");
-//        user.setPassword(passwordEncoder.encode("123456"));
-//
-//
-//
-////        when(this.userRepository.save(Mockito.any(User.class))).thenAnswer(u -> u.getArguments()[0]);
-//          created = this.modelMapper.map(this.userService.saveUser(user),User.class);
-////        when(this.userRepository.findByUsername(Mockito.anyString())).thenReturn(created);
-//
-//    }
+
+    @BeforeEach
+    public void init() {
+        User   user = new User();
+        user.setUsername("TestUser");
+        user.setRole(Role.Admin);
+        user.setEnabled(true);
+        user.setEmail("test@test");
+        user.setPassword(passwordEncoder.encode("123456"));
+
+
+
+//        when(this.userRepository.save(Mockito.any(User.class))).thenAnswer(u -> u.getArguments()[0]);
+          created = this.modelMapper.map(this.userService.saveUser(user),User.class);
+//        when(this.userRepository.findByUsername(Mockito.anyString())).thenReturn(created);
+
+    }
 
     @Test
     void saveUser() {

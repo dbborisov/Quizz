@@ -16,10 +16,19 @@ import javax.persistence.Table;
 public class Scores extends BaseEntity {
 
     @Column(name = "username",nullable = false)
-    private String username;
+    private String userName;
+
+    @Column(name = "userId",nullable = false)
+    private Long userId;
+
+    @Column(name = "quiz_name",nullable = false)
+    private String quizName;
+
+    @Column(name = "quizId",nullable = false)
+    private Long quizId;
 
     @Column(name = "score",nullable = false)
-    private long score;
+    private double score;
 
 
 

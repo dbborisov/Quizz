@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import quiz.demo.data.model.Role;
 import quiz.demo.exceptions.ModelVerificationException;
 import quiz.demo.service.model.UserServiceModel;
 import quiz.demo.service.service.UserManagementService;
@@ -59,9 +60,10 @@ public class UserProfileController extends BaseController {
 UserServiceModel userNew = this.userService.findByUsername(user.getUsername());
         try {
             RestVerifier.verifyModelResult(result);
-           userManagementService.updatePassword(userNew,user.getPassword());
+
+           userManagementService.updatePasswordAndRole(userNew,user.getPassword(), userNew.getRole());
         } catch (ModelVerificationException e) {
-            mav.setViewName("user/registration");
+            mav.setViewName("/user/editUserProfile");
             return mav;
         }
 
