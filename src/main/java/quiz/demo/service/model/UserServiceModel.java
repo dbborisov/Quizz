@@ -13,8 +13,8 @@ import java.util.Date;
 @Getter
 @Setter
 @NoArgsConstructor
-public class UserServiceModel extends BaseServiceModel {
-
+public class UserServiceModel  {
+    private Long id;
     private String email;
     private String username;
     @JsonIgnore

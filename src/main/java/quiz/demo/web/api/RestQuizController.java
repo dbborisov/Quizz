@@ -81,7 +81,7 @@ public class RestQuizController extends BaseController {
     @PreAuthorize("isAuthenticated()")
     @ResponseStatus(HttpStatus.CREATED)
     public Quiz save(@AuthenticationPrincipal AuthenticatedUser user, @Valid Quiz quiz, BindingResult result) {
-
+        System.out.println(quiz.getName());
         logger.debug("The Quiz " + quiz.getName() + " is going to be created");
 
         RestVerifier.verifyModelResult(result);

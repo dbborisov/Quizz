@@ -115,7 +115,7 @@ public class UserServiceTests {
 
 
 		Assertions.assertThrows(UsernameNotFoundException.class,() -> {
-			service.loadUserByUsername("test");
+			service.findByUsername("test");
 	});
 
 	}
@@ -124,7 +124,7 @@ public class UserServiceTests {
 	public void findUserByUsername_shouldFind() {
 		when(userRepository.findByEmail(user.getEmail())).thenReturn(user);
 
-		UserDetails localUser = service.loadUserByUsername(user.getEmail());
+		UserDetails localUser = (UserDetails) service.findByEmail(user.getEmail());
 
 		verify(userRepository, times(1)).findByEmail(user.getEmail());
 		assertNotNull(localUser);

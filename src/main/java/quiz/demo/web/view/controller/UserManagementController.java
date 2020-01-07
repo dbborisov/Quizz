@@ -56,7 +56,7 @@ public class UserManagementController extends BaseController {
 
     @GetMapping(value = "all/edit/{id}")
     @PreAuthorize("isAuthenticated()")
-    @ResponseBody()
+
     public ModelAndView editProfile(@AuthenticationPrincipal AuthenticatedUser user, @PathVariable Long id, ModelAndView modelAndView) {
         String userRole= user.getUser().getRole().toString();
       if(userRole.equals("Admin") ||userRole.equals("ROOT") ) {

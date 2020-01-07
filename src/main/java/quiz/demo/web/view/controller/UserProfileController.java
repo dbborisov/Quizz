@@ -3,6 +3,7 @@ package quiz.demo.web.view.controller;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import quiz.demo.data.model.Role;
+import quiz.demo.data.model.AuthenticatedUser;
 import quiz.demo.exceptions.ModelVerificationException;
 import quiz.demo.service.model.UserServiceModel;
 import quiz.demo.service.service.UserManagementService;
@@ -54,19 +55,36 @@ public class UserProfileController extends BaseController {
 
     @PostMapping(value = "/edit")
     @PreAuthorize("isAuthenticated()")
-    public ModelAndView signUp(@ModelAttribute @Valid UserServiceModel user, BindingResult result) {
+    public ModelAndView signUp(@AuthenticationPrincipal AuthenticatedUser autUser, @ModelAttribute @Valid UserServiceModel user, BindingResult result) {
 
         ModelAndView mav = new ModelAndView();
 UserServiceModel userNew = this.userService.findByUsername(user.getUsername());
+
+//        try {
+//            RestVerifier.verifyModelResult(result);
+//           userManagementService.updatePasswordAndRole(userNew,user.getPassword(),user.getRole());
+//        } catch (ModelVerificationException e) {
+//            mav.setViewName("user/registration");
+//            return mav;
+//        }
+        String userRole= autUser.getUser().getRole().toString();
+        if(userRole.equals("Admin") || userRole.equals("ROOT") ) {
+            try {
+                RestVerifier.verifyModelResult(result);
+                userManagementService.updatePasswordAndRole(userNew,user.getPassword(),user.getRole());
+            } catch (ModelVerificationException e) {
+                mav.setViewName("user/registration");
+                return mav;
+            }
+            return redirect("/user/all");
+        }
         try {
             RestVerifier.verifyModelResult(result);
-
-           userManagementService.updatePasswordAndRole(userNew,user.getPassword(), userNew.getRole());
+            userManagementService.updatePassword(userNew,user.getPassword());
         } catch (ModelVerificationException e) {
-            mav.setViewName("/user/editUserProfile");
+            mav.setViewName("user/registration");
             return mav;
         }
-
         return redirect("/user/profile");
     }
 }

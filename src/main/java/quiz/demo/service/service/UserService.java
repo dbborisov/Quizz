@@ -9,7 +9,7 @@ import quiz.demo.service.model.UserServiceModel;
 
 import java.util.List;
 
-public interface UserService extends UserDetailsService {
+public interface UserService  {
     UserServiceModel saveUser(User user) throws UserAlreadyExistsException;
 
     UserServiceModel findById(Long id) throws ResourceUnavailableException;
